@@ -25,8 +25,8 @@ Text.defaultProps = {
   children: null,
   text_align: false,
   bold: false,
-  size: false,
-  color: "#222831",
+  size: "",
+  color: "",
   margin: "",
 };
 

@@ -1,7 +1,7 @@
-import Text from "./StyledText";
-import Input from "./StyledInput";
-import Image from "./StyledImage";
-import Button from "./StyledButton";
-import Grid from "./StyledGrid";
+import Text from "./Text";
+import Input from "./Input";
+import Image from "./Image";
+import Button from "./Button";
+import Grid from "./Grid";
 
 export { Grid, Button, Image, Input, Text };

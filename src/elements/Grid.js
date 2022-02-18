@@ -2,6 +2,7 @@ import styled from "styled-components";
 import React from "react";
 
 const GridBlock = styled.div`
+  position: relative;
   width: ${(props) => (props.width ? props.width : "")};
   margin: ${(props) => (props.margin ? props.margin : "")};
   padding: ${(props) => (props.padding ? props.padding : "")};
@@ -12,6 +13,7 @@ const GridBlock = styled.div`
   justify-content: ${(props) => (props.is_flex ? "space-between;" : "")};
   align-items: ${(props) => (props.is_flex ? "center;" : "")};
   text-align: ${(props) => (props.text_align ? props.text_align : "")};
+  border-right: ${(props) => (props.border_right ? props.border_right : "")};
 `;
 
 const Grid = (props) => {
@@ -25,6 +27,7 @@ const Grid = (props) => {
     text_align,
     children,
     onClick,
+    border_right,
   } = props;
   const styles = {
     width: width,
@@ -34,6 +37,7 @@ const Grid = (props) => {
     is_flex: is_flex,
     flex_direction: flex_direction,
     text_align: text_align,
+    border_right: border_right,
   };
 
   return (

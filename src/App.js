@@ -4,12 +4,14 @@ import MainPage from "./pages/MainPage";
 import StreamPage from "./pages/StreamPage";
 import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
+import Header from "./common/Header";
 
 export const history = createBrowserHistory();
 
 function App() {
   return (
     <HistoryRouter history={history}>
+      <Header />
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/detail" element={<DetailPage />} />

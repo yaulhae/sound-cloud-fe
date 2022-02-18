@@ -2,8 +2,8 @@ import styled from "styled-components";
 import React from "react";
 
 const TemplateBlock = styled.div`
+  min-width: 920px;
   width: 65%;
-  height: 100vh;
   background: white;
   margin: 0 auto;
 `;

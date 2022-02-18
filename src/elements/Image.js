@@ -12,16 +12,17 @@ const CircleImage = styled.div`
 `;
 
 const AspectOutter = styled.div`
-  width: 100%;
-  min-width: 250px;
+  width: ${(props) => props.size};
+  min-width: 160px;
 `;
 
 const AspectInner = styled.div`
   position: relative;
-  padding-top: 75%;
+  padding-top: 100%;
   overflow: hidden;
   background-image: url("${(props) => props.src}");
   background-size: cover;
+  background-position: center;
 `;
 
 const ImageDefault = styled.div`
@@ -30,6 +31,7 @@ const ImageDefault = styled.div`
   height: var(--size);
   background-image: url("${(props) => props.src}");
   background-size: cover;
+  background-position: center;
 `;
 
 const Image = (props) => {
@@ -45,7 +47,7 @@ const Image = (props) => {
 
   if (shape === "rectangle") {
     return (
-      <AspectOutter>
+      <AspectOutter {...styles}>
         <AspectInner {...styles} />
       </AspectOutter>
     );

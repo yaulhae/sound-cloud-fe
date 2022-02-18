@@ -59,11 +59,11 @@ Input.defaultProps = {
   padding: false,
   font_size: false,
   type: "text",
-  placeholder: false,
+  placeholder: "",
   onChange: () => {},
   onSubmit: () => {},
   onKeyPress: () => {},
   is_label: false,
-  value: null,
+  value: "",
 };
 export default Input;
