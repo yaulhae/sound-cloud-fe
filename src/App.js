@@ -1,24 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from "react-router-dom";
+import DetailPage from "./pages/DetailPage";
+import MainPage from "./pages/MainPage";
+import StreamPage from "./pages/StreamPage";
+import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
+import { createBrowserHistory } from "history";
+
+export const history = createBrowserHistory();
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <HistoryRouter history={history}>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/detail" element={<DetailPage />} />
+        <Route path="/stream" element={<StreamPage />} />
+      </Routes>
+    </HistoryRouter>
   );
 }
 
