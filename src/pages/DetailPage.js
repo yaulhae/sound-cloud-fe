@@ -1,7 +1,9 @@
 import styled from 'styled-components';
-import React from 'react';
+import React, { useState } from 'react';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Template from '../common/Template';
+import { WaveForm } from '../elements/index';
 
 import {
     faHeart,
@@ -27,7 +29,7 @@ const DetailPage = () => {
                             </TitleArtistWrapper>
                             <Created>1 year ago</Created>
                         </PlayButtonWrapper>
-                        <WaveFormWrapper>WaveFrom....</WaveFormWrapper>
+                        <WaveForm />
                     </LeftWrapper>
                     <MusicCover>MusicImg</MusicCover>
                 </PlayerWrapper>
@@ -165,12 +167,6 @@ const Created = styled.div`
     right: 0;
     top: 18px;
     color: white;
-`;
-
-const WaveFormWrapper = styled.div`
-    width: 100%;
-    height: 100px;
-    background-color: white;
 `;
 
 const MusicCover = styled.div`
