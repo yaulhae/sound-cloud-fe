@@ -19,7 +19,7 @@ class Waveform extends Component {
             container: container,
             barWidth: 2,
             barRadius: 1,
-            barGap: 1,
+            barGap: 2,
             barMinHeight: 1,
             cursorWidth: 1,
             backend: 'WebAudio',
@@ -99,7 +99,8 @@ const Wave = styled.div`
     height: 90px;
     overflow: hidden;
     -webkit-box-reflect: below 1px -webkit-gradient(linear, left top, left
-                bottom, from(transparent), color-stop(0.7, transparent), to(rgba(255, 255, 255)));
+                bottom, from(transparent), color-stop(0.7, #ffffff00), to(rgb(255
+                        255 255 / 100%)));
 `;
 
 const CurTimeLabel = styled.div`
