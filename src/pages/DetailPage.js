@@ -7,15 +7,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import TemplateRyu from '../common/TemplateRyu';
 import { WaveForm } from '../elements/index';
 
+
 import {
-    faHeart,
-    faRepeat,
-    faShareFromSquare,
-    faPaperclip,
-    faEllipsis,
-    faPlay,
-    faMessage,
-} from '@fortawesome/free-solid-svg-icons';
+  faHeart,
+  faRepeat,
+  faShareFromSquare,
+  faPaperclip,
+  faEllipsis,
+  faPlay,
+  faMessage,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { actionsCreators as musicActions } from '../redux/music';
 
@@ -118,215 +119,215 @@ const DetailPage = () => {
 };
 
 const DetailPageBlock = styled.div`
-    /* font-size: 0.9em; */
+  /* font-size: 0.9em; */
 `;
 
 const PlayerWrapper = styled.div`
-    display: flex;
-    height: 380px;
-    background-color: green;
-    margin-left: -20px;
-    margin-right: -20px;
+  display: flex;
+  height: 380px;
+  background-color: green;
+  margin-left: -20px;
+  margin-right: -20px;
 `;
 
 const LeftWrapper = styled.div`
-    position: relative;
-    width: 100%;
-    margin: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  position: relative;
+  width: 100%;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const PlayButtonWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 100px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100px;
 `;
 
 const PlayButton = styled.div`
-    width: 60px;
-    height: 60px;
-    background-color: #f30;
-    border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  background-color: #f30;
+  border-radius: 50%;
 `;
 
 const TitleArtistWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin: 6px;
-    height: 60px;
-    color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 6px;
+  height: 60px;
+  color: white;
 `;
 
 const Title = styled.div`
-    background-color: black;
-    font-size: 1.5em;
-    height: 30px;
-    line-height: 1.4;
-    width: fit-content;
-    padding: 0px 8px;
+  background-color: black;
+  font-size: 1.5em;
+  height: 30px;
+  line-height: 1.4;
+  width: fit-content;
+  padding: 0px 8px;
 `;
 
 const Artist = styled.div`
-    background-color: black;
-    color: #ccc;
-    width: fit-content;
-    line-height: 1.8;
-    height: 25px;
-    padding: 0px 8px;
+  background-color: black;
+  color: #ccc;
+  width: fit-content;
+  line-height: 1.8;
+  height: 25px;
+  padding: 0px 8px;
 `;
 
 const Created = styled.div`
-    position: absolute;
-    right: 0;
-    top: 18px;
-    color: white;
+  position: absolute;
+  right: 0;
+  top: 18px;
+  color: white;
 `;
 
 const MusicCover = styled.div`
-    min-width: 340px;
-    height: 340px;
-    margin: 20px 20px 20px 0px;
-    background-color: lightblue;
+  min-width: 340px;
+  height: 340px;
+  margin: 20px 20px 20px 0px;
+  background-color: lightblue;
 `;
 
 const InfoWrapper = styled.div`
-    margin-top: 20px;
-    font-size: 0.9em;
+  margin-top: 20px;
+  font-size: 0.9em;
 `;
 
 const InputWrapper = styled.div`
-    height: 90px;
-    border-bottom: 1px solid #e5e5e5;
+  height: 90px;
+  border-bottom: 1px solid #e5e5e5;
 `;
 const InputContainer = styled.div`
-    display: flex;
-    align-items: center;
-    height: 40px;
-    background: #f2f2f2;
-    border: 1px solid #e5e5e5;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  background: #f2f2f2;
+  border: 1px solid #e5e5e5;
 `;
 const CommentInput = styled.input`
-    width: 100%;
-    margin: 4px 6px;
-    padding: 2px 0px 0px 6px;
-    border-radius: 4px;
-    border: 1px solid #e5e5e5;
+  width: 100%;
+  margin: 4px 6px;
+  padding: 2px 0px 0px 6px;
+  border-radius: 4px;
+  border: 1px solid #e5e5e5;
 `;
 
 const UserImage = styled.div`
-    width: 40px;
-    height: 40px;
-    background-image: url('https://ifh.cc/g/8lDrUd.jpg');
-    background-size: cover;
-    border-radius: ${props => (props.shape === 'cir' ? '50%' : null)};
+  width: 40px;
+  height: 40px;
+  background-image: url("https://ifh.cc/g/8lDrUd.jpg");
+  background-size: cover;
+  border-radius: ${(props) => (props.shape === "cir" ? "50%" : null)};
 `;
 
 const ButtonWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    margin-top: 14px;
+  display: flex;
+  align-items: center;
+  margin-top: 14px;
 `;
 
 const BorderButton = styled.button`
-    margin-right: 6px;
-    padding: 2px 9px;
-    border: 1px solid #e5e5e5;
-    border-radius: 3px;
-    background-color: #fff;
-    cursor: pointer;
-    color: #333;
-    font-size: 14px;
-    line-height: 20px;
-    white-space: nowrap;
+  margin-right: 6px;
+  padding: 2px 9px;
+  border: 1px solid #e5e5e5;
+  border-radius: 3px;
+  background-color: #fff;
+  cursor: pointer;
+  color: #333;
+  font-size: 14px;
+  line-height: 20px;
+  white-space: nowrap;
 `;
 
 const TextWrapper = styled.div`
-    font-weight: 400;
-    font-size: 14px;
-    color: #999;
-    margin-left: auto;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+  font-weight: 400;
+  font-size: 14px;
+  color: #999;
+  margin-left: auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 `;
 
 const PlayCount = styled.span`
-    margin-left: 6px;
-    height: 20px;
+  margin-left: 6px;
+  height: 20px;
 `;
 
 const Column = styled.div`
-    display: flex;
-    flex-direction: row;
-    margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
 `;
 
 const ArtistWrapper = styled.div`
-    min-height: 100vh;
-    width: 18.5%;
+  min-height: 100vh;
+  width: 18.5%;
 `;
 
 const ArtistImage = styled.div`
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    background-image: url('https://ifh.cc/g/8lDrUd.jpg');
-    background-size: cover;
-    margin-bottom: 6px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-image: url("https://ifh.cc/g/8lDrUd.jpg");
+  background-size: cover;
+  margin-bottom: 6px;
 `;
 
 const CommentWrapper = styled.div`
-    width: 81.5%;
-    min-height: 100vh;
+  width: 81.5%;
+  min-height: 100vh;
 `;
 
 const CommentCountContainer = styled.div`
-    color: #999;
-    border-bottom: 1px solid #e5e5e5;
-    padding-bottom: 6px;
+  color: #999;
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 6px;
 `;
 
 const CommentCount = styled.span`
-    margin: 0 0 6px 6px;
+  margin: 0 0 6px 6px;
 `;
 
 const CommentList = styled.div`
-    margin-top: 6px;
+  margin-top: 6px;
 `;
 
 const CommentContainer = styled.div`
-    position: relative;
-    display: flex;
-    align-items: center;
-    /* width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  /* width: 100%;
     height: 100px; */
 `;
 
 const ContentWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 10px;
 `;
 
 const UserName = styled.div`
-    color: #999;
-    margin-bottom: -6px;
+  color: #999;
+  margin-bottom: -6px;
 `;
 
 const Comment = styled.div`
-    font-size: 0.9em;
+  font-size: 0.9em;
 `;
 
 const CommentCreated = styled.div`
-    position: absolute;
-    right: 0;
-    top: 10px;
-    color: #999;
+  position: absolute;
+  right: 0;
+  top: 10px;
+  color: #999;
 `;
 
 export default DetailPage;

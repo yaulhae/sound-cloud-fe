@@ -73,7 +73,7 @@ const Header = () => {
               <Link to="/stream">Stream</Link>
             </Grid>
             <Grid padding="1em 2em" border_right="1px solid #111" s>
-              <Link to="/test">Library</Link>
+              <Link to="/detail">Library</Link>
             </Grid>
           </Grid>
         </Grid>

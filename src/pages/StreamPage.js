@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React from "react";
+import React, { useEffect } from "react";
 import Template from "../common/Template";
 import { Grid, Image, Text } from "../elements";
 import { useState } from "react";
@@ -24,7 +24,8 @@ import music3 from "../static/Amy Winehouse - Valerie.mp3";
 import music4 from "../static/기타샘플과제.mp3";
 import music5 from "../static/폴킴( Paul Kim) - 모든 날, 모든 순간 [키스 먼저 할까요#` OST] 가사.mp3";
 import PlayBar from "../common/PlayBar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getStreamListFB } from "../redux/stream";
 
 const StreamPageBlock = styled.div`
   padding: 50px 30px 40px 30px;
@@ -86,7 +87,6 @@ const StreamPageBlock = styled.div`
     }
     .right {
       flex: 1;
-      margin-top: 0.8em;
       span {
         font-size: 0.75rem;
         margin-right: 0.5em;
@@ -108,6 +108,8 @@ const StreamPageBlock = styled.div`
 
 const StreamPage = () => {
   const now_playing = useSelector(({ track }) => track.now_playing);
+  // const streamList = useSelector(({ stream }) => stream.streamList);
+  const dispatch = useDispatch();
   const [streamList, setStreamList] = useState([
     {
       userName: "야울해",
@@ -221,6 +223,9 @@ const StreamPage = () => {
     },
   ]);
 
+  // useEffect(() => {
+  //   dispatch(getStreamListFB())
+  // }, []);
   return (
     <Template>
       <StreamPageBlock>
@@ -265,12 +270,12 @@ const StreamPage = () => {
                         <div
                           className="listening_item"
                           key={idx}
-                          style={{ marginBottom: "0.5em" }}
+                          style={{ marginBottom: "1.5em" }}
                         >
                           <div className="left">
                             <Image size="50px" src={stream.imageUrl} />
                           </div>
-                          <div className="right">
+                          <div className="right" style={{ marginTop: "0.6em" }}>
                             <Text
                               size="0.9rem"
                               margin="0 0 0.7em 0"

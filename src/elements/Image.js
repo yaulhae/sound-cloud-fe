@@ -1,19 +1,18 @@
-import styled from 'styled-components';
-import React from 'react';
+import styled from "styled-components";
+import React from "react";
 
 const CircleImage = styled.div`
-    --size: ${props => props.size};
-    width: var(--size);
-    height: var(--size);
-    border-radius: var(--size);
-    background-image: url('${props => props.src}');
-    background-size: cover;
-    margin: 0.5em;
+  --size: ${(props) => props.size};
+  width: var(--size);
+  height: var(--size);
+  border-radius: var(--size);
+  background-image: url("${(props) => props.src}");
+  background-size: cover;
+  margin-right: 0.5em;
 `;
 
 const AspectOutter = styled.div`
   width: ${(props) => props.size};
-  min-width: 32px;
   margin: ${(props) => props.margin};
 `;
 
@@ -43,28 +42,28 @@ const Image = (props) => {
     margin: margin,
   };
 
-    if (shape === 'circle') {
-        return <CircleImage {...styles}></CircleImage>;
-    }
+  if (shape === "circle") {
+    return <CircleImage {...styles}></CircleImage>;
+  }
 
-    if (shape === 'rectangle') {
-        return (
-            <AspectOutter>
-                <AspectInner {...styles} />
-            </AspectOutter>
-        );
-    }
+  if (shape === "rectangle") {
     return (
       <AspectOutter {...styles}>
         <AspectInner {...styles} />
       </AspectOutter>
     );
+  }
+  return (
+    <AspectOutter {...styles}>
+      <AspectInner {...styles} />
+    </AspectOutter>
+  );
 };
 
 Image.defaultProps = {
-    shape: 'circle',
-    size: '36px',
-    src: 'https://ifh.cc/g/8lDrUd.jpg',
+  shape: "circle",
+  size: "36px",
+  src: "https://ifh.cc/g/8lDrUd.jpg",
 };
 
 export default Image;
