@@ -56,10 +56,10 @@ const Header = () => {
               <Link to="/">Home</Link>
             </Grid>
             <Grid padding="1em 2em" border_right="1px solid #111">
-              <Link to="/stream">Stream</Link>
+              <Link to="/detail">Stream</Link>
             </Grid>
             <Grid padding="1em 2em" border_right="1px solid #111" s>
-              <Link to="/">Library</Link>
+              <Link to="/test">Library</Link>
             </Grid>
           </Grid>
         </Grid>
