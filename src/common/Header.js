@@ -69,11 +69,16 @@ const Header = () => {
             <Grid padding="1em 2.3em" border_right="1px solid #111">
               <Link to="/">Home</Link>
             </Grid>
-            <Grid padding="1em 2.3em" border_right="1px solid #111">
-              <Link to="/stream">Stream</Link>
+//             <Grid padding="1em 2.3em" border_right="1px solid #111">
+//               <Link to="/stream">Stream</Link>
+//             </Grid>
+//             <Grid padding="1em 2.3em" border_right="1px solid #111" s>
+//               <Link to="/">Library</Link>
+            <Grid padding="1em 2em" border_right="1px solid #111">
+              <Link to="/detail">Stream</Link>
             </Grid>
-            <Grid padding="1em 2.3em" border_right="1px solid #111" s>
-              <Link to="/">Library</Link>
+            <Grid padding="1em 2em" border_right="1px solid #111" s>
+              <Link to="/test">Library</Link>
             </Grid>
           </Grid>
         </Grid>
