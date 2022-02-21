@@ -94,15 +94,17 @@ const PlayBarBlock = styled.div`
 
 const PlayBar = () => {
   const now_playing = useSelector(({ track }) => track.now_playing);
-  const now_player = useSelector(({ track }) => track.now_player);
-  // const [startTime, setStartTime] = useState(
-  //   Math.floor(now_player.getCurrentTime)
-  // );
-  // const [endTime, setEndTime] = useState(Math.floor(now_player.Duration()));
+  const now_playtime = useSelector(({ track }) => track.now_playtime);
+  const now_endTime = useSelector(({ track }) => track.now_endTime);
+  var playTime_min = Math.floor(now_playtime / 60);
+  var playTime_sec = now_playtime % 60;
+  let new_playTime = `${playTime_min}:${playTime_sec}`;
 
-  // useEffect(() => {
-  //   let timer = setInterval();
-  // }, [now_player]);
+  var endTime_min = Math.floor(now_endTime / 60);
+  var endTime_sec = now_endTime % 60;
+  let new_endTime = `${endTime_min}:${endTime_sec}`;
+
+  useEffect(() => {});
   return (
     <PlayBarBlock>
       <div className="playPlayer_container">
@@ -114,12 +116,12 @@ const PlayBar = () => {
           <FontAwesomeIcon icon={faRotate} />
         </div>
         <div className="progressBar_container">
-          <span className="start_time"></span>
+          <span className="start_time">{new_playTime}</span>
           <div className="progressBar">
             <div className="progress"></div>
             <div className="backProgress"></div>
           </div>
-          <span className="end_time"></span>
+          <span className="end_time">{new_endTime}</span>
           <FontAwesomeIcon icon={faVolumeHigh} className="sound_icon" />
         </div>
         <div className="track_info">

@@ -2,14 +2,17 @@ import produce from "immer";
 import { createAction, handleActions } from "redux-actions";
 
 const IS_PLAYING = "/track/IS_PLAYING";
-const GET_PLAYER = "/track/GET_PLAYER";
+const GET_PLAYTIME = "/track/GET_PLAYTIME";
+const GET_ENDTIME = "/track/GET_ENDTIME";
 
 export const isPlaying = createAction(IS_PLAYING, (track) => ({ track }));
-export const getPlayer = createAction(GET_PLAYER, (player) => ({ player }));
+export const getPlayTime = createAction(GET_PLAYTIME, (time) => ({ time }));
+export const getEndTime = createAction(GET_ENDTIME, (time) => ({ time }));
 
 const initialState = {
   now_playing: null,
-  now_player: null,
+  now_playtime: null,
+  now_endTime: null,
 };
 
 const track = handleActions(
@@ -18,9 +21,13 @@ const track = handleActions(
       produce(state, (draft) => {
         draft.now_playing = action.payload.track;
       }),
-    [GET_PLAYER]: (state, action) =>
+    [GET_PLAYTIME]: (state, action) =>
       produce(state, (draft) => {
-        draft.now_player = action.payload.player;
+        draft.now_playtime = action.payload.time;
+      }),
+    [GET_ENDTIME]: (state, action) =>
+      produce(state, (draft) => {
+        draft.now_endTime = action.payload.time;
       }),
   },
   initialState

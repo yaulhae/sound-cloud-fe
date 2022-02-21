@@ -1,13 +1,25 @@
 import styled from "styled-components";
 import React, { useEffect, useRef } from "react";
-import { Image, Text } from "../elements";
+import { Grid, Image, Text } from "../elements";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPauseCircle, faPlayCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEllipsis,
+  faHeart,
+  faPaperclip,
+  faPauseCircle,
+  faPlay,
+  faPlayCircle,
+  faRepeat,
+  faShareFromSquare,
+} from "@fortawesome/free-solid-svg-icons";
 import WaveSurfer from "wavesurfer.js";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { getPlayer, isPlaying } from "../redux/track";
+import { isPlaying } from "../redux/track";
 import { useSelector } from "react-redux";
+import { getPlayTime } from "../redux/track";
+import { getEndTime } from "../redux/track";
+
 <script src="//cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/1.4.0/wavesurfer.min.js"></script>;
 <script src="https://unpkg.com/wavesurfer.js"></script>;
 
@@ -25,7 +37,6 @@ const StreamItemBlock = styled.div`
   .middle_user {
     display: flex;
     align-items: center;
-    margin-bottom: 1em;
   }
   .middle_music_artist {
     flex: 1;
@@ -50,28 +61,65 @@ const StreamItemBlock = styled.div`
     line-height: 1.2;
   }
   #waveform {
-    height: 60px;
     position: relative;
+  }
+  .waveform_container {
+    height: 50px;
+    overflow: hidden;
+    -webkit-box-reflect: below 1px -webkit-gradient(linear, left top, left
+          bottom, from(transparent), color-stop(0.7, #ffffff00), to(rgb(255 255
+              255 / 100%)));
+    margin-bottom: 2em;
+  }
+  .comment_container {
+    display: flex;
+    align-items: center;
+    padding: 0.3em 0.4em;
+    background: #f2f2f2;
+    border: 1px solid #e5e5e5;
+  }
+  .comment_input {
+    font-size: 12px;
+    cursor: pointer;
+    border: 1px solid #e5e5e5;
+    outline: none;
+    background: #fff;
+    border-radius: 0 4px 4px 0;
+    width: 100%;
+    padding: 0 0 0 0.5em;
   }
 `;
 
 const StreamItem = ({ stream }) => {
   const audioPlayer = useRef(null);
+  const timeRef = useRef(null);
   const playingTrack = useSelector(({ track }) => track.now_playing);
+  console.log(playingTrack);
   const dispatch = useDispatch();
 
   useEffect(() => {
     audioPlayer.current = WaveSurfer.create({
       container: audioPlayer.current,
-      waveColor: "#666666",
-      progressColor: "#FF5C00",
-      cursorColor: "white",
-      barWidth: 1.5,
-      height: 60,
-      width: 100,
-      barRadius: true,
-      barGap: 1.5,
-      scrollParent: false,
+      // waveColor: "#666666",
+      // progressColor: "#FF5C00",
+      // cursorColor: "white",
+      // barWidth: 1.5,
+      // height: 60,
+      // width: 100,
+      // barRadius: 1,
+      // barGap: 1.5,
+      // scrollParent: false,
+      barWidth: 2,
+      barRadius: 1,
+      barGap: 2,
+      barMinHeight: 1,
+      cursorWidth: 1,
+      backend: "WebAudio",
+      height: 80,
+      progressColor: "#FE6E00",
+      responsive: true,
+      waveColor: "#C4C4C4",
+      cursorColor: "transparent",
     });
 
     audioPlayer.current.load(stream.musicUrl);
@@ -85,19 +133,17 @@ const StreamItem = ({ stream }) => {
       return;
     }
     dispatch(isPlaying(stream));
-    // dispatch(getPlayer(audioPlayer.current));
   };
 
   if (stream.musicId === playingTrack?.musicId) {
-    audioPlayer.current.play();
-    // let timer = setInterval(
-    //   () => console.log(audioPlayer.current.getCurrentTime()),
-    //   1000
-    // );
-    // console.log(audioPlayer.current.getDuration());
+    audioPlayer.current?.play();
+    timeRef.current = setInterval(() =>
+      dispatch(getPlayTime(Math.floor(audioPlayer.current?.getCurrentTime())))
+    );
+    dispatch(getEndTime(Math.floor(audioPlayer.current?.getDuration())));
   } else {
     audioPlayer.current?.pause();
-    // clearInterval(timer);
+    clearInterval(timeRef.current);
   }
 
   return (
@@ -135,15 +181,17 @@ const StreamItem = ({ stream }) => {
                 </div>
               </div>
               <div>
-                <div id="waveform" ref={audioPlayer}></div>
-                {/* <img
-                  alt="음파음파"
-                  src="https://ifh.cc/g/vHkMNs.png"
-                  style={{
-                    width: "100%",
-                    height: "112px",
-                  }}
-                /> */}
+                <div className="waveform_container">
+                  <div id="waveform" ref={audioPlayer}></div>
+                </div>
+                <div className="comment_container">
+                  <Image shape="rectangle" size="20px" />
+                  <input
+                    type="text"
+                    placeholder="Write a comment"
+                    className="comment_input"
+                  />
+                </div>
               </div>
             </div>
           </div>
