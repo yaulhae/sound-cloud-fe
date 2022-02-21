@@ -13,7 +13,6 @@ const CircleImage = styled.div`
 
 const AspectOutter = styled.div`
   width: ${(props) => props.size};
-  /* min-width: 32px; */
   margin: ${(props) => props.margin};
 `;
 
@@ -49,7 +48,7 @@ const Image = (props) => {
 
   if (shape === "rectangle") {
     return (
-      <AspectOutter {...styles}>
+      <AspectOutter>
         <AspectInner {...styles} />
       </AspectOutter>
     );
