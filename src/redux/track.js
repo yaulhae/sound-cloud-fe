@@ -9,6 +9,13 @@ export const isPlaying = createAction(IS_PLAYING, (track) => ({ track }));
 export const getPlayTime = createAction(GET_PLAYTIME, (time) => ({ time }));
 export const getEndTime = createAction(GET_ENDTIME, (time) => ({ time }));
 
+export const insPlayingFB = () => {
+  console.log("안녕");
+  return (dispatch, getState) => {
+    console.log("도착은 하니?");
+  };
+};
+
 const initialState = {
   now_playing: null,
   now_playtime: null,

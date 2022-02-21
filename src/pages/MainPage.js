@@ -215,6 +215,7 @@ const MainPage = () => {
       rank: "Top 50",
     },
   ]);
+
   const [artistList, setArtistList] = useState([
     {
       userName: "야울해",
