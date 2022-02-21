@@ -8,12 +8,11 @@ const CircleImage = styled.div`
   border-radius: var(--size);
   background-image: url("${(props) => props.src}");
   background-size: cover;
-  margin: 0.5em;
+  margin-right: 0.5em;
 `;
 
 const AspectOutter = styled.div`
   width: ${(props) => props.size};
-  min-width: 170px;
   margin: ${(props) => props.margin};
 `;
 
