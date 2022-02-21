@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import React from 'react';
 
 const TemplateBlock = styled.div`
+    padding: 0 20px;
     min-width: 920px;
     width: 1240px;
     background: white;
@@ -14,12 +15,8 @@ const TemplateBlock = styled.div`
     }
 `;
 
-const Template = ({ children }) => {
+const TemplateRyu = ({ children }) => {
     return <TemplateBlock>{children}</TemplateBlock>;
 };
 
-TemplateBlock.defaultProps = {
-    padding: '',
-};
-
-export default Template;
+export default TemplateRyu;

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Template from '../common/Template';
+import TemplateRyu from '../common/TemplateRyu';
 import { WaveForm } from '../elements/index';
 
 import {
@@ -21,27 +21,32 @@ import { actionsCreators as musicActions } from '../redux/music';
 
 const DetailPage = () => {
     const dispatch = useDispatch();
-    const music = useSelector(state => state.music);
+    const music = useSelector(state => state?.music?.music?.music);
+    const commentList = useSelector(state => state?.music?.music?.music);
 
     React.useEffect(() => {
-        dispatch(musicActions.getOneMusicAPI());
-        console.log(music);
+        dispatch(musicActions.getOneMusicAPI()).then(() => {
+            console.log(music);
+            console.log(commentList);
+        });
     }, []);
 
     return (
-        <Template>
+        <TemplateRyu>
             <DetailPageBlock>
                 <PlayerWrapper>
                     <LeftWrapper>
                         <PlayButtonWrapper>
                             <PlayButton></PlayButton>
                             <TitleArtistWrapper>
-                                <Title>Song Title</Title>
-                                <Artist>Artist Name</Artist>
+                                <Title>{music?.musicTitle}</Title>
+                                <Artist>{music?.artistName}</Artist>
                             </TitleArtistWrapper>
-                            <Created>1 year ago</Created>
+                            <Created>{music?.createdAt}</Created>
                         </PlayButtonWrapper>
-                        <WaveForm />
+                        <WaveForm
+                            url={music?.musicUrl ? music?.musicUrl : ''}
+                        />
                     </LeftWrapper>
                     <MusicCover>MusicImg</MusicCover>
                 </PlayerWrapper>
@@ -76,12 +81,14 @@ const DetailPage = () => {
                     <Column>
                         <ArtistWrapper>
                             <ArtistImage></ArtistImage>
-                            <div>Artist Name</div>
+                            <div>{music?.artistName}</div>
                         </ArtistWrapper>
                         <CommentWrapper>
                             <CommentCountContainer>
                                 <FontAwesomeIcon icon={faMessage} />
-                                <CommentCount>0 comments</CommentCount>
+                                <CommentCount>
+                                    {commentList?.length} comments
+                                </CommentCount>
                             </CommentCountContainer>
                             <CommentList>
                                 <CommentContainer>
@@ -108,7 +115,7 @@ const DetailPage = () => {
                     </Column>
                 </InfoWrapper>
             </DetailPageBlock>
-        </Template>
+        </TemplateRyu>
     );
 };
 

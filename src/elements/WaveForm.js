@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import WaveSurfer from 'wavesurfer.js';
+import music from '../static/빈지노(beezino) - Aqua Man(아쿠아맨) 가사ㅣLyricㅣsmay.mp3';
 
 import '../waveForm.css';
 
-class Waveform extends Component {
+class WaveForm extends Component {
     state = {
         playing: false,
         duration: 0,
@@ -22,7 +23,7 @@ class Waveform extends Component {
             barGap: 2,
             barMinHeight: 1,
             cursorWidth: 1,
-            backend: 'WebAudio',
+            backend: 'MediaElementWebAudio',
             height: 180,
             progressColor: '#FE6E00',
             responsive: true,
@@ -57,21 +58,27 @@ class Waveform extends Component {
     };
 
     render() {
-        const url = '/sample/03 너의 우주.mp3';
-
         return (
             <WaveformContianer>
                 <PlayButton onClick={this.handlePlay}>
                     {!this.state.playing ? 'Play' : 'Pause'}
                 </PlayButton>
                 <Wave id="waveform" />
-                <audio id="track" src={url} />
+                <audio
+                    id="track"
+                    src={this.props.url ? this.props.url : music}
+                />
                 <CurTimeLabel>{this.state.curTime}</CurTimeLabel>
                 <DurationLabel>{this.state.duration}</DurationLabel>
             </WaveformContianer>
         );
     }
 }
+
+WaveForm.defaultProps = {
+    url: null,
+};
+
 const PlayButton = styled.button`
     position: absolute;
     top: 20px;
@@ -114,4 +121,4 @@ const DurationLabel = styled.div`
     z-index: 2;
 `;
 
-export default Waveform;
+export default WaveForm;
