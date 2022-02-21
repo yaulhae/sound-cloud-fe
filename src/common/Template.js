@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import React from 'react';
+import styled from "styled-components";
+import React from "react";
 
 const TemplateBlock = styled.div`
   min-width: 920px;
@@ -15,7 +15,7 @@ const TemplateBlock = styled.div`
 `;
 
 const Template = ({ children }) => {
-    return <TemplateBlock>{children}</TemplateBlock>;
+  return <TemplateBlock>{children}</TemplateBlock>;
 };
 
 export default Template;

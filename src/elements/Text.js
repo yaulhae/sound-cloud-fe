@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import React from 'react';
+import styled from "styled-components";
+import React from "react";
 
 const TextBlock = styled.p`
   font-size: ${(props) => (props.size ? props.size : "")};

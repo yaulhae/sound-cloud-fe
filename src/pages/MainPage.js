@@ -3,9 +3,11 @@ import React, { Component, useEffect, useRef } from "react";
 import Template from "../common/Template";
 import { Grid, Image, Text } from "../elements";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Settings } from "../common/settings";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import { actionsCreators as top5ListActions } from "../redux/playlist";
 import Slider from "react-slick";
 import {
   faCalendar,
@@ -83,7 +85,6 @@ const MainPageBlock = styled.div`
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-
     margin-right: 20px;
   }
   .flex-container {
@@ -189,6 +190,15 @@ const MainPageBlock = styled.div`
 `;
 
 const MainPage = () => {
+  const dispatch = useDispatch();
+  const top5List = useSelector();
+
+  React.useEffect(() => {
+    dispatch(top5ListActions.getTopList()).then(() => {
+      console.log(top5List);
+    });
+  }, []);
+
   const [Charts, setCharts] = useState([
     {
       imageUrl:
