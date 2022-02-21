@@ -1,9 +1,12 @@
-import styled from "styled-components";
-import React, { useState } from "react";
+import styled from 'styled-components';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Template from "../common/Template";
-import { WaveForm } from "../elements/index";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import TemplateRyu from '../common/TemplateRyu';
+import { WaveForm } from '../elements/index';
+
 
 import {
   faHeart,
@@ -15,89 +18,104 @@ import {
   faMessage,
 } from "@fortawesome/free-solid-svg-icons";
 
+import { actionsCreators as musicActions } from '../redux/music';
+
 const DetailPage = () => {
-  return (
-    <Template>
-      <DetailPageBlock>
-        <PlayerWrapper>
-          <LeftWrapper>
-            <PlayButtonWrapper>
-              <PlayButton></PlayButton>
-              <TitleArtistWrapper>
-                <Title>Song Title</Title>
-                <Artist>Artist Name</Artist>
-              </TitleArtistWrapper>
-              <Created>1 year ago</Created>
-            </PlayButtonWrapper>
-            <WaveForm />
-          </LeftWrapper>
-          <MusicCover>MusicImg</MusicCover>
-        </PlayerWrapper>
-        <InfoWrapper>
-          <InputWrapper>
-            <InputContainer>
-              <UserImage />
-              <CommentInput placeholder="Write a comment" />
-            </InputContainer>
-            <ButtonWrapper>
-              <BorderButton>
-                <FontAwesomeIcon icon={faHeart} />
-              </BorderButton>
-              <BorderButton>
-                <FontAwesomeIcon icon={faRepeat} />
-              </BorderButton>
-              <BorderButton>
-                <FontAwesomeIcon icon={faShareFromSquare} />
-              </BorderButton>
-              <BorderButton>
-                <FontAwesomeIcon icon={faPaperclip} />
-              </BorderButton>
-              <BorderButton>
-                <FontAwesomeIcon icon={faEllipsis} />
-              </BorderButton>
-              <TextWrapper>
-                <FontAwesomeIcon icon={faPlay} />
-                <PlayCount>0</PlayCount>
-              </TextWrapper>
-            </ButtonWrapper>
-          </InputWrapper>
-          <Column>
-            <ArtistWrapper>
-              <ArtistImage></ArtistImage>
-              <div>Artist Name</div>
-            </ArtistWrapper>
-            <CommentWrapper>
-              <CommentCountContainer>
-                <FontAwesomeIcon icon={faMessage} />
-                <CommentCount>0 comments</CommentCount>
-              </CommentCountContainer>
-              <CommentList>
-                <CommentContainer>
-                  <UserImage shape="cir"></UserImage>
-                  <ContentWrapper>
-                    <UserName>
-                      User Name{" "}
-                      <span
-                        style={{
-                          color: "#ccc",
-                          fontSize: "0.9em",
-                        }}
-                      >
-                        at
-                      </span>{" "}
-                      0:34
-                    </UserName>
-                    <Comment>CommentComent...</Comment>
-                  </ContentWrapper>
-                  <CommentCreated>1 year ago</CommentCreated>
-                </CommentContainer>
-              </CommentList>
-            </CommentWrapper>
-          </Column>
-        </InfoWrapper>
-      </DetailPageBlock>
-    </Template>
-  );
+    const dispatch = useDispatch();
+    const music = useSelector(state => state?.music?.music?.music);
+    const commentList = useSelector(state => state?.music?.music?.music);
+
+    React.useEffect(() => {
+        dispatch(musicActions.getOneMusicAPI()).then(() => {
+            console.log(music);
+            console.log(commentList);
+        });
+    }, []);
+
+    return (
+        <TemplateRyu>
+            <DetailPageBlock>
+                <PlayerWrapper>
+                    <LeftWrapper>
+                        <PlayButtonWrapper>
+                            <PlayButton></PlayButton>
+                            <TitleArtistWrapper>
+                                <Title>{music?.musicTitle}</Title>
+                                <Artist>{music?.artistName}</Artist>
+                            </TitleArtistWrapper>
+                            <Created>{music?.createdAt}</Created>
+                        </PlayButtonWrapper>
+                        <WaveForm url={music?.musicUrl} />
+                    </LeftWrapper>
+                    <MusicCover>MusicImg</MusicCover>
+                </PlayerWrapper>
+                <InfoWrapper>
+                    <InputWrapper>
+                        <InputContainer>
+                            <UserImage />
+                            <CommentInput placeholder="Write a comment" />
+                        </InputContainer>
+                        <ButtonWrapper>
+                            <BorderButton>
+                                <FontAwesomeIcon icon={faHeart} />
+                            </BorderButton>
+                            <BorderButton>
+                                <FontAwesomeIcon icon={faRepeat} />
+                            </BorderButton>
+                            <BorderButton>
+                                <FontAwesomeIcon icon={faShareFromSquare} />
+                            </BorderButton>
+                            <BorderButton>
+                                <FontAwesomeIcon icon={faPaperclip} />
+                            </BorderButton>
+                            <BorderButton>
+                                <FontAwesomeIcon icon={faEllipsis} />
+                            </BorderButton>
+                            <TextWrapper>
+                                <FontAwesomeIcon icon={faPlay} />
+                                <PlayCount>0</PlayCount>
+                            </TextWrapper>
+                        </ButtonWrapper>
+                    </InputWrapper>
+                    <Column>
+                        <ArtistWrapper>
+                            <ArtistImage></ArtistImage>
+                            <div>{music?.artistName}</div>
+                        </ArtistWrapper>
+                        <CommentWrapper>
+                            <CommentCountContainer>
+                                <FontAwesomeIcon icon={faMessage} />
+                                <CommentCount>
+                                    {commentList?.length} comments
+                                </CommentCount>
+                            </CommentCountContainer>
+                            <CommentList>
+                                <CommentContainer>
+                                    <UserImage shape="cir"></UserImage>
+                                    <ContentWrapper>
+                                        <UserName>
+                                            User Name{' '}
+                                            <span
+                                                style={{
+                                                    color: '#ccc',
+                                                    fontSize: '0.9em',
+                                                }}
+                                            >
+                                                at
+                                            </span>{' '}
+                                            0:34
+                                        </UserName>
+                                        <Comment>CommentComent...</Comment>
+                                    </ContentWrapper>
+                                    <CommentCreated>1 year ago</CommentCreated>
+                                </CommentContainer>
+                            </CommentList>
+                        </CommentWrapper>
+                    </Column>
+                </InfoWrapper>
+            </DetailPageBlock>
+        </TemplateRyu>
+    );
 };
 
 const DetailPageBlock = styled.div`

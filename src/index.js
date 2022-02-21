@@ -8,9 +8,10 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { Provider } from "react-redux";
 import store from "./redux/index";
 
+
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById("root")
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('root')
 );
