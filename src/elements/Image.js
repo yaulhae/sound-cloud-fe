@@ -13,7 +13,8 @@ const CircleImage = styled.div`
 
 const AspectOutter = styled.div`
   width: ${(props) => props.size};
-  min-width: 160px;
+  min-width: 32px;
+  margin: ${(props) => props.margin};
 `;
 
 const AspectInner = styled.div`
@@ -35,10 +36,11 @@ const ImageDefault = styled.div`
 `;
 
 const Image = (props) => {
-  const { shape, size, src } = props;
+  const { shape, size, src, margin } = props;
   const styles = {
     src: src,
     size: size,
+    margin: margin,
   };
 
   if (shape === "circle") {

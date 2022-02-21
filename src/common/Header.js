@@ -39,26 +39,40 @@ const HeaderBlock = styled.div`
     top: 0.5em;
     color: #333;
   }
+  .header_container {
+    position: relative;
+    width: 1240px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @media screen and (max-width: 1239px) {
+      width: 1080px;
+    }
+    @media screen and (max-width: 1079px) {
+      width: 960px;
+    }
+  }
 `;
 
 const Header = () => {
   return (
     <HeaderBlock>
-      <Grid width="65%" margin="0 auto" is_flex="flex">
+      <div className="header_container">
         <Grid>
           <Grid is_flex="flex">
-            <Grid bg="linear-gradient(#f70,#f30)" padding="0.9em">
+            <Grid bg="linear-gradient(#f70,#f30)" padding="1em">
               <Link to="/">
                 <img src={Logo} alt="로고" />
               </Link>
             </Grid>
-            <Grid padding="1em 2em" border_right="1px solid #111">
+            <Grid padding="1em 2.3em" border_right="1px solid #111">
               <Link to="/">Home</Link>
             </Grid>
-            <Grid padding="1em 2em" border_right="1px solid #111">
+            <Grid padding="1em 2.3em" border_right="1px solid #111">
               <Link to="/stream">Stream</Link>
             </Grid>
-            <Grid padding="1em 2em" border_right="1px solid #111" s>
+            <Grid padding="1em 2.3em" border_right="1px solid #111" s>
               <Link to="/">Library</Link>
             </Grid>
           </Grid>
@@ -77,7 +91,7 @@ const Header = () => {
 
         <Grid>
           <Grid is_flex="flex">
-            <Grid padding="0 1em">
+            <Grid padding="0 0.5em">
               <Text>Upload</Text>
             </Grid>
             <Grid is_flex="flex" padding="0 1em">
@@ -110,7 +124,7 @@ const Header = () => {
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </div>
     </HeaderBlock>
   );
 };

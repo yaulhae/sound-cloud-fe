@@ -14,6 +14,7 @@ const GridBlock = styled.div`
   align-items: ${(props) => (props.is_flex ? "center;" : "")};
   text-align: ${(props) => (props.text_align ? props.text_align : "")};
   border-right: ${(props) => (props.border_right ? props.border_right : "")};
+  border-bottom: ${(props) => (props.border_bottom ? props.border_bottom : "")};
 `;
 
 const Grid = (props) => {
@@ -28,6 +29,7 @@ const Grid = (props) => {
     children,
     onClick,
     border_right,
+    border_bottom,
   } = props;
   const styles = {
     width: width,
@@ -38,6 +40,7 @@ const Grid = (props) => {
     flex_direction: flex_direction,
     text_align: text_align,
     border_right: border_right,
+    border_bottom: border_bottom,
   };
 
   return (
