@@ -22,15 +22,20 @@
 html,
 body {
   height: 100%;
+  min-width: 920px;
   background: #f2f2f2;
 }
 img,
 picture,
 video,
-canvas,
 svg {
   display: block;
 }
+canvas {
+  display: block;
+  width: 100%;
+}
+
 button {
   background: none;
   border: 0;
