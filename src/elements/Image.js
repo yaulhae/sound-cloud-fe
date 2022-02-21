@@ -48,7 +48,7 @@ const Image = (props) => {
 
   if (shape === "rectangle") {
     return (
-      <AspectOutter>
+      <AspectOutter {...styles}>
         <AspectInner {...styles} />
       </AspectOutter>
     );

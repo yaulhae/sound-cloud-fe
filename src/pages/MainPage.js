@@ -321,7 +321,7 @@ const MainPage = () => {
                         <div className="box_hover">
                           <Image
                             shape="rectangle"
-                            size="15%"
+                            size="160px"
                             src={stream.imageUrl}
                           />
                           <div className="Inimage">
@@ -355,7 +355,7 @@ const MainPage = () => {
                       <div className="flex_box">
                         <Image
                           shape="rectangle"
-                          size="15%"
+                          size="160px"
                           src={stream.imageUrl}
                         />
                         <div className="Inimage">
@@ -386,7 +386,7 @@ const MainPage = () => {
                       <div className="flex_box">
                         <Image
                           shape="rectangle"
-                          size="15%"
+                          size="160px"
                           src={stream.imageUrl}
                         />
                         <div className="Inimage">
@@ -419,7 +419,7 @@ const MainPage = () => {
                       <div className="flex_box">
                         <Image
                           shape="rectangle"
-                          size="100%"
+                          size="160px"
                           src={stream.imageUrl}
                         />
                         <div className="Inimage">
@@ -453,7 +453,7 @@ const MainPage = () => {
                       <div className="flex_box">
                         <Image
                           shape="rectangle"
-                          size="15%"
+                          size="160px"
                           src={stream.imageUrl}
                         />
                         <div className="Inimage">
