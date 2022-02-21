@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Template from '../common/Template';
@@ -15,7 +17,17 @@ import {
     faMessage,
 } from '@fortawesome/free-solid-svg-icons';
 
+import { actionsCreators as musicActions } from '../redux/music';
+
 const DetailPage = () => {
+    const dispatch = useDispatch();
+    const music = useSelector(state => state.music);
+
+    React.useEffect(() => {
+        dispatch(musicActions.getOneMusicAPI());
+        console.log(music);
+    }, []);
+
     return (
         <Template>
             <DetailPageBlock>
