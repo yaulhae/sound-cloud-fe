@@ -25,7 +25,8 @@ import music4 from "../static/기타샘플과제.mp3";
 import music5 from "../static/폴킴( Paul Kim) - 모든 날, 모든 순간 [키스 먼저 할까요#` OST] 가사.mp3";
 import PlayBar from "../common/PlayBar";
 import { useDispatch, useSelector } from "react-redux";
-import { getStreamListFB } from "../redux/stream";
+import { getStreamList, getStreamListFB } from "../redux/stream";
+import { insPlayingFB } from "../redux/track";
 
 const StreamPageBlock = styled.div`
   padding: 50px 30px 40px 30px;
@@ -108,60 +109,61 @@ const StreamPageBlock = styled.div`
 
 const StreamPage = () => {
   const now_playing = useSelector(({ track }) => track.now_playing);
-  // const streamList = useSelector(({ stream }) => stream.streamList);
+  const streamList = useSelector(({ stream }) => stream?.streamList);
   const dispatch = useDispatch();
-  const [streamList, setStreamList] = useState([
-    {
-      userName: "야울해",
-      content: "빈지노는 빈집털이",
-      musicId: 1,
-      musicTitle: "아쿠아맨",
-      artistName: "빈지노",
-      imageUrl: "https://ifh.cc/g/tIjE7w.jpg",
-      musicUrl: music1,
-      playCnt: 23,
-    },
-    {
-      userName: "야울해",
-      content: "청각의 쾌감",
-      musicId: 2,
-      musicTitle: "원플러스원",
-      artistName: "수란",
-      imageUrl: "https://ifh.cc/g/e14DnE.jpg",
-      musicUrl: music2,
-      playCnt: 23,
-    },
-    {
-      userName: "야울해",
-      content: "우아우아 우아해~",
-      musicId: 3,
-      musicTitle: "발레리",
-      artistName: "에이미와인하우스",
-      imageUrl: "https://ifh.cc/g/b7nNRH.jpg",
-      musicUrl: music3,
-      playCnt: 14,
-    },
-    {
-      userName: "야울해",
-      content: "빈지노는 빈집털이",
-      musicId: 4,
-      musicTitle: "아쿠아맨",
-      artistName: "빈지노",
-      imageUrl: "https://ifh.cc/g/tIjE7w.jpg",
-      musicUrl: music4,
-      playCnt: 23,
-    },
-    {
-      userName: "야울해",
-      content: "빈지노는 빈집털이",
-      musicId: 4,
-      musicTitle: "아쿠아맨",
-      artistName: "빈지노",
-      imageUrl: "https://ifh.cc/g/tIjE7w.jpg",
-      musicUrl: music4,
-      playCnt: 23,
-    },
-  ]);
+
+  // const [streamList, setStreamList] = useState([
+  //   {
+  //     userName: "야울해",
+  //     content: "빈지노는 빈집털이",
+  //     musicId: 1,
+  //     musicTitle: "아쿠아맨",
+  //     artistName: "빈지노",
+  //     imageUrl: "https://ifh.cc/g/tIjE7w.jpg",
+  //     musicUrl: music1,
+  //     playCnt: 23,
+  //   },
+  //   {
+  //     userName: "야울해",
+  //     content: "청각의 쾌감",
+  //     musicId: 2,
+  //     musicTitle: "원플러스원",
+  //     artistName: "수란",
+  //     imageUrl: "https://ifh.cc/g/e14DnE.jpg",
+  //     musicUrl: music2,
+  //     playCnt: 23,
+  //   },
+  //   {
+  //     userName: "야울해",
+  //     content: "우아우아 우아해~",
+  //     musicId: 3,
+  //     musicTitle: "발레리",
+  //     artistName: "에이미와인하우스",
+  //     imageUrl: "https://ifh.cc/g/b7nNRH.jpg",
+  //     musicUrl: music3,
+  //     playCnt: 14,
+  //   },
+  //   {
+  //     userName: "야울해",
+  //     content: "빈지노는 빈집털이",
+  //     musicId: 4,
+  //     musicTitle: "아쿠아맨",
+  //     artistName: "빈지노",
+  //     imageUrl: "https://ifh.cc/g/tIjE7w.jpg",
+  //     musicUrl: music4,
+  //     playCnt: 23,
+  //   },
+  //   {
+  //     userName: "야울해",
+  //     content: "빈지노는 빈집털이",
+  //     musicId: 4,
+  //     musicTitle: "아쿠아맨",
+  //     artistName: "빈지노",
+  //     imageUrl: "https://ifh.cc/g/tIjE7w.jpg",
+  //     musicUrl: music4,
+  //     playCnt: 23,
+  //   },
+  // ]);
 
   const [artistList, setArtistList] = useState([
     {
@@ -223,9 +225,11 @@ const StreamPage = () => {
     },
   ]);
 
-  // useEffect(() => {
-  //   dispatch(getStreamListFB())
-  // }, []);
+  useEffect(() => {
+    console.log("안녕");
+    dispatch(getStreamListFB());
+  }, []);
+
   return (
     <Template>
       <StreamPageBlock>
@@ -236,7 +240,7 @@ const StreamPage = () => {
             </Text>
             <Grid>
               <div className="stream_list">
-                {streamList.map((stream, idx) => {
+                {streamList?.map((stream, idx) => {
                   return <StreamItem stream={stream} key={idx} />;
                 })}
               </div>

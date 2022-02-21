@@ -14,8 +14,10 @@ const initialState = {
 
 export const getStreamListFB = () => {
   return async (dispatch, getState) => {
+    console.log("2");
     try {
-      const response = await apis.get(`/stream/야울해`);
+      console.log("왔니?");
+      const response = await apis.get(`/stream/6`);
       console.log(response.data);
       const streamList = response.data;
       dispatch(getStreamList(streamList));

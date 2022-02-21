@@ -126,8 +126,6 @@ const PlayerWrapper = styled.div`
   display: flex;
   height: 380px;
   background-color: green;
-  margin-left: -20px;
-  margin-right: -20px;
 `;
 
 const LeftWrapper = styled.div`
