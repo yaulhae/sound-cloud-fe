@@ -54,16 +54,16 @@ const Input = props => {
 };
 
 Input.defaultProps = {
-    id: null,
-    width: '',
-    padding: false,
-    font_size: false,
-    type: 'text',
-    placeholder: '',
-    onChange: () => {},
-    onSubmit: () => {},
-    onKeyPress: () => {},
-    is_label: false,
-    value: '',
+  id: null,
+  width: "",
+  padding: false,
+  font_size: false,
+  type: "text",
+  placeholder: "",
+  onChange: () => {},
+  onSubmit: () => {},
+  onKeyPress: () => {},
+  is_label: false,
+  value: "",
 };
 export default Input;

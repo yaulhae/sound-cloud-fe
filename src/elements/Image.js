@@ -12,32 +12,36 @@ const CircleImage = styled.div`
 `;
 
 const AspectOutter = styled.div`
-    width: 100%;
-    min-width: 250px;
+  width: ${(props) => props.size};
+  min-width: 32px;
+  margin: ${(props) => props.margin};
 `;
 
 const AspectInner = styled.div`
-    position: relative;
-    padding-top: 75%;
-    overflow: hidden;
-    background-image: url('${props => props.src}');
-    background-size: cover;
+  position: relative;
+  padding-top: 100%;
+  overflow: hidden;
+  background-image: url("${(props) => props.src}");
+  background-size: cover;
+  background-position: center;
 `;
 
 const ImageDefault = styled.div`
-    --size: ${props => props.size};
-    width: var(--size);
-    height: var(--size);
-    background-image: url('${props => props.src}');
-    background-size: cover;
+  --size: ${(props) => props.size};
+  width: var(--size);
+  height: var(--size);
+  background-image: url("${(props) => props.src}");
+  background-size: cover;
+  background-position: center;
 `;
 
-const Image = props => {
-    const { shape, size, src } = props;
-    const styles = {
-        src: src,
-        size: size,
-    };
+const Image = (props) => {
+  const { shape, size, src, margin } = props;
+  const styles = {
+    src: src,
+    size: size,
+    margin: margin,
+  };
 
     if (shape === 'circle') {
         return <CircleImage {...styles}></CircleImage>;
@@ -51,9 +55,9 @@ const Image = props => {
         );
     }
     return (
-        <>
-            <ImageDefault {...styles} />
-        </>
+      <AspectOutter {...styles}>
+        <AspectInner {...styles} />
+      </AspectOutter>
     );
 };
 

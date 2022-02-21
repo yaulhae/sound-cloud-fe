@@ -1,8 +1,7 @@
-import Text from './Text';
-import Input from './Input';
-import Image from './Image';
-import Button from './Button';
-import Grid from './Grid';
-import WaveForm from './WaveForm';
+import Text from "./Text";
+import Input from "./Input";
+import Image from "./Image";
+import Button from "./Button";
+import Grid from "./Grid";
 
-export { Grid, Button, Image, Input, Text, WaveForm };
+export { Grid, Button, Image, Input, Text };
