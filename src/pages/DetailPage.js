@@ -5,7 +5,7 @@ import { Grid, Image, Text } from "../elements";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlayCircle } from "@fortawesome/free-solid-svg-icons";
-
+import Test from "./Test";
 const DetailPageBlock = styled.div`
   padding: 50px 30px 40px 30px;
   .layout_container {
