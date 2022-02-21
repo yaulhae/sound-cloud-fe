@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import WaveSurfer from 'wavesurfer.js';
-import music from '../static/빈지노(beezino) - Aqua Man(아쿠아맨) 가사ㅣLyricㅣsmay.mp3';
 
 import '../waveForm.css';
 
@@ -32,6 +31,8 @@ class WaveForm extends Component {
         });
 
         this.waveform.load(track);
+
+        console.log(this.props.url);
 
         this.waveform.on('ready', () => {
             const h = parseInt(this.waveform.getDuration() / 3600)
@@ -64,10 +65,7 @@ class WaveForm extends Component {
                     {!this.state.playing ? 'Play' : 'Pause'}
                 </PlayButton>
                 <Wave id="waveform" />
-                <audio
-                    id="track"
-                    src={this.props.url ? this.props.url : music}
-                />
+                <audio id="track" src={this.props.url ? this.props.url : ''} />
                 <CurTimeLabel>{this.state.curTime}</CurTimeLabel>
                 <DurationLabel>{this.state.duration}</DurationLabel>
             </WaveformContianer>

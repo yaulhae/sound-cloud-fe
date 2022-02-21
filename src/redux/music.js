@@ -19,7 +19,6 @@ const getOneMusicAPI = () => {
                 method: 'get',
                 url: `/music/3`,
             });
-            console.log(response);
             const music = response.data;
             dispatch(getOneMusic(music));
         } catch (err) {

@@ -44,9 +44,7 @@ const DetailPage = () => {
                             </TitleArtistWrapper>
                             <Created>{music?.createdAt}</Created>
                         </PlayButtonWrapper>
-                        <WaveForm
-                            url={music?.musicUrl ? music?.musicUrl : ''}
-                        />
+                        <WaveForm url={music?.musicUrl} />
                     </LeftWrapper>
                     <MusicCover>MusicImg</MusicCover>
                 </PlayerWrapper>
