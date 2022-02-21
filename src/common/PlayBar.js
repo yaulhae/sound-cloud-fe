@@ -95,14 +95,14 @@ const PlayBarBlock = styled.div`
 const PlayBar = () => {
   const now_playing = useSelector(({ track }) => track.now_playing);
   const now_player = useSelector(({ track }) => track.now_player);
-  const [startTime, setStartTime] = useState(
-    Math.floor(now_player.getCurrentTime)
-  );
-  const [endTime, setEndTime] = useState(Math.floor(now_player.Duration()));
+  // const [startTime, setStartTime] = useState(
+  //   Math.floor(now_player.getCurrentTime)
+  // );
+  // const [endTime, setEndTime] = useState(Math.floor(now_player.Duration()));
 
-  useEffect(() => {
-    let timer = setInterval();
-  }, [now_player]);
+  // useEffect(() => {
+  //   let timer = setInterval();
+  // }, [now_player]);
   return (
     <PlayBarBlock>
       <div className="playPlayer_container">

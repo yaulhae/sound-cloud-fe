@@ -81,11 +81,11 @@ const StreamItem = ({ stream }) => {
     if (stream.musicId === playingTrack?.musicId) {
       audioPlayer.current?.pause();
       dispatch(isPlaying(null));
-      dispatch(getPlayer(null));
+      // dispatch(getPlayer(null));
       return;
     }
     dispatch(isPlaying(stream));
-    dispatch(getPlayer(audioPlayer.current));
+    // dispatch(getPlayer(audioPlayer.current));
   };
 
   if (stream.musicId === playingTrack?.musicId) {
