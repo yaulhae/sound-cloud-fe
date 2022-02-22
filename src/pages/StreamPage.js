@@ -246,7 +246,7 @@ const StreamPage = () => {
                 <Grid
                   is_flex="flex"
                   padding="0 0 0.3em 0"
-                  margin="0 0 0.7em 0"
+                  margin="0 0 1.5em 0"
                   border_bottom="1px solid rgba(0,0,0,0.1)"
                 >
                   <div className="history_calendar">
@@ -314,7 +314,7 @@ const StreamPage = () => {
                 <Grid
                   is_flex="flex"
                   padding="0 0 0.3em 0"
-                  margin="0 0 1em 0"
+                  margin="0 0 1.5em 0"
                   border_bottom="1px solid rgba(0,0,0,0.1)"
                 >
                   <div className="history_calendar">

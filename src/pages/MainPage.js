@@ -170,7 +170,6 @@ const MainPageBlock = styled.div`
     }
     .right {
       flex: 1;
-      margin-top: 0.8em;
       span {
         font-size: 0.75rem;
         margin-right: 0.5em;
@@ -435,7 +434,7 @@ const MainPage = () => {
                     <Grid>
                       <div>
                         <div className="flex-container">
-                          {Charts?.hiphopCategoryMusict.map((stream, idx) => {
+                          {Charts?.hiphopCategoryMusict?.map((stream, idx) => {
                             return (
                               <div className="flex_box" key={idx}>
                                 <div className="box_hover">
@@ -482,7 +481,7 @@ const MainPage = () => {
                     <Grid>
                       <div>
                         <div className="flex-container">
-                          {Charts?.rockCategoryMusit.map((stream, idx) => {
+                          {Charts?.rockCategoryMusit?.map((stream, idx) => {
                             return (
                               <div className="flex_box" key={idx}>
                                 <div className="box_hover">
@@ -529,7 +528,7 @@ const MainPage = () => {
                     <Grid>
                       <div>
                         <div className="flex-container">
-                          {Charts?.hiphopCategoryMusit.map((stream, idx) => {
+                          {Charts?.hiphopCategoryMusit?.map((stream, idx) => {
                             return (
                               <div className="flex_box" key={idx}>
                                 <div className="box_hover">
@@ -576,7 +575,7 @@ const MainPage = () => {
                     <Grid>
                       <div>
                         <div className="flex-container">
-                          {Charts?.rockCategoryMusit.map((stream, idx) => {
+                          {Charts?.rockCategoryMusit?.map((stream, idx) => {
                             return (
                               <div className="flex_box" key={idx}>
                                 <div className="box_hover">
@@ -610,16 +609,13 @@ const MainPage = () => {
 
             {/* ///////////// */}
           </div>
-        </div>
-
-        <div>
           <div className="layout_right">
             <div className="layout_fixed">
               <div className="right_container" style={{ marginBottom: "em" }}>
                 <Grid
                   is_flex="flex"
                   padding="0 0 0.3em 0"
-                  margin="0 0 0.7em 0"
+                  margin="0 0 1.5em 0"
                   border_bottom="1px solid rgba(0,0,0,0.1)"
                 >
                   <div className="history_calendar">
@@ -641,12 +637,12 @@ const MainPage = () => {
                         <div
                           className="listening_item"
                           key={idx}
-                          style={{ marginBottom: "0.5em" }}
+                          style={{ marginBottom: "1.5em" }}
                         >
                           <div className="left">
                             <Image size="50px" src={stream.imageUrl} />
                           </div>
-                          <div className="right">
+                          <div className="right" style={{ marginTop: "0.6em" }}>
                             <Text
                               size="0.9rem"
                               margin="0 0 0.7em 0"
@@ -687,7 +683,7 @@ const MainPage = () => {
                 <Grid
                   is_flex="flex"
                   padding="0 0 0.3em 0"
-                  margin="0 0 1em 0"
+                  margin="0 0 1.5em 0"
                   border_bottom="1px solid rgba(0,0,0,0.1)"
                 >
                   <div className="history_calendar">
