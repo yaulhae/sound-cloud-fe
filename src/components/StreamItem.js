@@ -15,7 +15,7 @@ import {
 import WaveSurfer from "wavesurfer.js";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { isPlaying } from "../redux/track";
+import { getAudioPlayer, getPlayButton, isPlaying } from "../redux/track";
 import { useSelector } from "react-redux";
 import { getPlayTime } from "../redux/track";
 import { getEndTime } from "../redux/track";
@@ -94,7 +94,6 @@ const StreamItem = ({ stream }) => {
   const audioPlayer = useRef(null);
   const timeRef = useRef(null);
   const playingTrack = useSelector(({ track }) => track.now_playing);
-  console.log(playingTrack);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -133,6 +132,7 @@ const StreamItem = ({ stream }) => {
       return;
     }
     dispatch(isPlaying(stream));
+    dispatch(getAudioPlayer(audioPlayer.current));
   };
 
   if (stream.musicId === playingTrack?.musicId) {

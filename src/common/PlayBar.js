@@ -6,6 +6,7 @@ import {
   faForwardStep,
   faHeart,
   faListOl,
+  faPause,
   faPlay,
   faRotate,
   faShuffle,
@@ -14,8 +15,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Image, Text } from "../elements";
 import { useSelector } from "react-redux";
-import track from "../redux/track";
+import track, { isPlaying } from "../redux/track";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const PlayBarBlock = styled.div`
   position: fixed;
@@ -35,6 +37,7 @@ const PlayBarBlock = styled.div`
     align-items: center;
     svg {
       margin-right: 1.5em;
+      cursor: pointer;
       &:nth-child(1) {
         margin-left: 1em;
       }
@@ -96,6 +99,11 @@ const PlayBar = () => {
   const now_playing = useSelector(({ track }) => track.now_playing);
   const now_playtime = useSelector(({ track }) => track.now_playtime);
   const now_endTime = useSelector(({ track }) => track.now_endTime);
+  const audioPlayer = useSelector(({ track }) => track.audio_player);
+  const [playing, setPlaying] = useState(true);
+
+  const dispatch = useDispatch();
+
   var playTime_min = Math.floor(now_playtime / 60);
   var playTime_sec = now_playtime % 60;
   let new_playTime = `${playTime_min}:${playTime_sec}`;
@@ -104,14 +112,36 @@ const PlayBar = () => {
   var endTime_sec = now_endTime % 60;
   let new_endTime = `${endTime_min}:${endTime_sec}`;
 
+  const pauseMusic = () => {
+    audioPlayer.pause();
+    setPlaying(false);
+  };
+
+  const playMusic = () => {
+    audioPlayer.play();
+    setPlaying(true);
+  };
+
+  const skipForward = () => {
+    audioPlayer.skipForward(5);
+  };
+
+  const skipBackward = () => {
+    audioPlayer.skipBackward(5);
+  };
+
   useEffect(() => {});
   return (
     <PlayBarBlock>
       <div className="playPlayer_container">
         <div className="playerIcon_container">
-          <FontAwesomeIcon icon={faBackwardStep} />
-          <FontAwesomeIcon icon={faPlay} />
-          <FontAwesomeIcon icon={faForwardStep} />
+          <FontAwesomeIcon icon={faBackwardStep} onClick={skipBackward} />
+          {playing ? (
+            <FontAwesomeIcon icon={faPause} onClick={pauseMusic} />
+          ) : (
+            <FontAwesomeIcon icon={faPlay} onClick={playMusic} />
+          )}
+          <FontAwesomeIcon icon={faForwardStep} onClick={skipForward} />
           <FontAwesomeIcon icon={faShuffle} />
           <FontAwesomeIcon icon={faRotate} />
         </div>
