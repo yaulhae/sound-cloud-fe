@@ -1,11 +1,13 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 
+
 import stream from './stream';
 import track from './track';
 import music from './music';
+import playlist from "./playlist";
+const rootReducer = combineReducers({ playlist,track, stream, music });
 
-const rootReducer = combineReducers({ track, stream, music });
 
 const middlewares = [thunk];
 
