@@ -10,10 +10,8 @@ export const getStreamList = createAction(GET_STREALIST, (streamList) => ({
 
 export const getStreamListFB = () => {
   return async (dispatch, getState) => {
-    console.log("2");
     try {
-      const response = await apis.get(`/stream/6`);
-      console.log(response.data);
+      const response = await apis.get(`/stream/12`);
       const streamList = response.data;
       dispatch(getStreamList(streamList));
     } catch (e) {

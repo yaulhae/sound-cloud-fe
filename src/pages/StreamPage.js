@@ -18,11 +18,6 @@ import {
   faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import StreamItem from "../components/StreamItem";
-import music1 from "../static/빈지노(beezino) - Aqua Man(아쿠아맨) 가사ㅣLyricㅣsmay.mp3";
-import music2 from "../static/SURAN (수란) - 1+1=0 (Feat.DEAN) Lyrics [Color Coded_Han_Rom_Eng].mp3";
-import music3 from "../static/Amy Winehouse - Valerie.mp3";
-import music4 from "../static/기타샘플과제.mp3";
-import music5 from "../static/폴킴( Paul Kim) - 모든 날, 모든 순간 [키스 먼저 할까요#` OST] 가사.mp3";
 import PlayBar from "../common/PlayBar";
 import { useDispatch, useSelector } from "react-redux";
 import { getStreamList, getStreamListFB } from "../redux/stream";
