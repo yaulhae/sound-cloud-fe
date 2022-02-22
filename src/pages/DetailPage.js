@@ -1,14 +1,15 @@
 import styled from 'styled-components';
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import moment from 'moment';
+import { usePalette } from 'react-palette';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import TemplateRyu from '../common/TemplateRyu';
 import { WaveForm } from '../elements/index';
 
-import moment from 'moment';
 import formatTime from '../common/formatTime';
+import TemplateRyu from '../common/TemplateRyu';
 
 import {
     faHeart,
@@ -25,21 +26,39 @@ import { actionsCreators as musicActions } from '../redux/music';
 const DetailPage = () => {
     const dispatch = useDispatch();
 
-    React.useEffect(() => {
-        if (music) return;
-        dispatch(musicActions.getOneMusicAPI());
-    });
-
     const { music } = useSelector(({ music }) => music?.music);
     const { commentList } = useSelector(({ music }) => music?.music);
 
+    const { data } = usePalette(music?.imageUrl);
+
+    const darkMuted = data.darkMuted;
+    const vibrant = data.vibrant;
+
+    const commentInput = React.useRef();
+
+    const enterKey = () => {
+        if (window.event.keyCode === 13) {
+            console.log('엔터');
+        }
+    };
+
+    React.useEffect(() => {
+        if (music) return;
+        dispatch(musicActions.getOneMusicAPI());
+    }, [music]);
+
+    // console.log(music.imageUrl);
     // console.log(commentList);
     // store의 값을 확인하고 싶으면 useEffect 밖에서.....
 
     return (
         <TemplateRyu>
             <DetailPageBlock>
-                <PlayerWrapper>
+                <PlayerWrapper
+                    style={{
+                        background: `linear-gradient(100deg, ${darkMuted}, ${vibrant})`,
+                    }}
+                >
                     <LeftWrapper>
                         <PlayButtonWrapper>
                             <PlayButton></PlayButton>
@@ -58,13 +77,22 @@ const DetailPage = () => {
                         </PlayButtonWrapper>
                         <WaveForm url={music?.musicUrl} />
                     </LeftWrapper>
-                    <MusicCover>MusicImg</MusicCover>
+                    <MusicCover
+                        style={{
+                            backgroundImage: `url(${music?.imageUrl})
+`,
+                        }}
+                    />
                 </PlayerWrapper>
                 <InfoWrapper>
                     <InputWrapper>
                         <InputContainer>
                             <UserImage />
-                            <CommentInput placeholder="Write a comment" />
+                            <CommentInput
+                                placeholder="Write a comment"
+                                onKeyUp={enterKey}
+                                ref={commentInput}
+                            />
                         </InputContainer>
                         <ButtonWrapper>
                             <BorderButton>
@@ -154,7 +182,6 @@ const DetailPageBlock = styled.div`
 const PlayerWrapper = styled.div`
     display: flex;
     height: 380px;
-    background-color: green;
 `;
 
 const LeftWrapper = styled.div`
@@ -218,7 +245,6 @@ const MusicCover = styled.div`
     min-width: 340px;
     height: 340px;
     margin: 20px 20px 20px 0px;
-    background-color: lightblue;
 `;
 
 const InfoWrapper = styled.div`

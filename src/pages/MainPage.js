@@ -23,7 +23,7 @@ import {
 import { Howl } from "howler";
 import { makeStyles } from "@material-ui/core/styles";
 import Controls from "../common/Controls";
-import music from "./y2mate.com-IFeelItComing.mp3";
+// import music from "./y2mate.com-IFeelItComing.mp3";
 import { colors } from "@material-ui/core";
 
 const MainPageBlock = styled.div`
