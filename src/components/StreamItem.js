@@ -15,7 +15,7 @@ import {
 import WaveSurfer from "wavesurfer.js";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { isPlaying } from "../redux/track";
+import { getAudioPlayer, getPlayButton, isPlaying } from "../redux/track";
 import { useSelector } from "react-redux";
 import { getPlayTime } from "../redux/track";
 import { getEndTime } from "../redux/track";
@@ -61,15 +61,22 @@ const StreamItemBlock = styled.div`
     line-height: 1.2;
   }
   #waveform {
-    position: relative;
   }
   .waveform_container {
+    position: relative;
     height: 50px;
     overflow: hidden;
     -webkit-box-reflect: below 1px -webkit-gradient(linear, left top, left
           bottom, from(transparent), color-stop(0.7, #ffffff00), to(rgb(255 255
               255 / 100%)));
     margin-bottom: 2em;
+  }
+  .comment_list {
+    display: flex;
+    /* display: flex;
+    position: absolute;
+    bottom: 0;
+    left: 0; */
   }
   .comment_container {
     display: flex;
@@ -88,15 +95,25 @@ const StreamItemBlock = styled.div`
     width: 100%;
     padding: 0 0 0 0.5em;
   }
+  .sound_content {
+    position: relative;
+  }
+  .stream_comment {
+    display: flex;
+    font-size: 12px;
+  }
+  .show {
+    display: block !important;
+  }
 `;
 
 const StreamItem = ({ stream }) => {
   const audioPlayer = useRef(null);
   const timeRef = useRef(null);
+  const now_playtime = useSelector(({ track }) => track.now_playtime);
   const playingTrack = useSelector(({ track }) => track.now_playing);
-  console.log(playingTrack);
   const dispatch = useDispatch();
-
+  const [endTime, setEndTime] = useState(null);
   useEffect(() => {
     audioPlayer.current = WaveSurfer.create({
       container: audioPlayer.current,
@@ -115,7 +132,7 @@ const StreamItem = ({ stream }) => {
       barMinHeight: 1,
       cursorWidth: 1,
       backend: "WebAudio",
-      height: 80,
+      height: 100,
       progressColor: "#FE6E00",
       responsive: true,
       waveColor: "#C4C4C4",
@@ -123,6 +140,9 @@ const StreamItem = ({ stream }) => {
     });
 
     audioPlayer.current.load(stream.musicUrl);
+    audioPlayer.current.on("ready", () => {
+      setEndTime(audioPlayer.current.getDuration());
+    });
   }, []);
 
   const playToggle = () => {
@@ -133,16 +153,19 @@ const StreamItem = ({ stream }) => {
       return;
     }
     dispatch(isPlaying(stream));
+    dispatch(getAudioPlayer(audioPlayer.current));
   };
 
   if (stream.musicId === playingTrack?.musicId) {
     audioPlayer.current?.play();
+    clearInterval(timeRef.current);
     timeRef.current = setInterval(() =>
       dispatch(getPlayTime(Math.floor(audioPlayer.current?.getCurrentTime())))
     );
     dispatch(getEndTime(Math.floor(audioPlayer.current?.getDuration())));
   } else {
     audioPlayer.current?.pause();
+    console.log("도착함?");
     clearInterval(timeRef.current);
   }
 
@@ -180,7 +203,7 @@ const StreamItem = ({ stream }) => {
                   <p className="artist_title">{stream.musicTitle}</p>
                 </div>
               </div>
-              <div>
+              <div className="sound_content">
                 <div className="waveform_container">
                   <div id="waveform" ref={audioPlayer}></div>
                 </div>
@@ -191,6 +214,68 @@ const StreamItem = ({ stream }) => {
                     placeholder="Write a comment"
                     className="comment_input"
                   />
+                </div>
+                <div
+                  className="comment_list"
+                  style={{
+                    position: "absolute",
+                    bottom: "60px",
+                    left: "0",
+                  }}
+                >
+                  {stream.commentListDtos?.map((c, idx) => {
+                    const left = (Number(c.commentTime) / endTime) * 648;
+                    return (
+                      <div
+                        className="comment_item"
+                        style={{
+                          position: "absolute",
+                          left: left,
+                        }}
+                        key={idx}
+                      >
+                        <Image shape="rectangle" size="12px" key={idx} />
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div
+                  className="comment_list"
+                  style={{
+                    position: "absolute",
+                    bottom: "50px",
+                    left: "0",
+                  }}
+                >
+                  {stream.commentListDtos?.map((c, idx) => {
+                    const left = (Number(c.commentTime) / endTime) * 648;
+                    console.log(now_playtime, c.commentTime);
+                    return (
+                      <div
+                        className={
+                          now_playtime === Number(c.commentTime) &&
+                          stream.musicId === playingTrack?.musicId
+                            ? "comment_item show"
+                            : "comment_item"
+                        }
+                        style={{
+                          width: "160px",
+                          position: "absolute",
+                          left: left,
+                          display: "none",
+                        }}
+                        key={idx}
+                      >
+                        <div className="stream_comment">
+                          <Text color="#FE6E00" margin="0 0.6em 0 0">
+                            {c.commentUser}
+                          </Text>
+                          <Text>{c.commentContent}</Text>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>

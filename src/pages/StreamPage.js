@@ -1,9 +1,10 @@
-import styled from 'styled-components';
-import React, { useEffect } from 'react';
-import Template from '../common/Template';
-import { Grid, Image, Text } from '../elements';
-import { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import styled from "styled-components";
+import React, { useEffect, useRef } from "react";
+import Template from "../common/Template";
+import { Grid, Image, Text } from "../elements";
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faCalendar,
     faComment,
@@ -224,11 +225,9 @@ const StreamPage = () => {
         //     },
     ]);
 
-    useEffect(() => {
-        console.log('안녕');
-        dispatch(getStreamListFB());
-    }, []);
-
+  useEffect(() => {
+    dispatch(getStreamListFB());
+  }, []);
     return (
         <Template>
             <StreamPageBlock>
@@ -441,12 +440,18 @@ const StreamPage = () => {
                                 </Grid>
                             </div>
                         </div>
-                    </div>
-                </div>
-                {now_playing && <PlayBar />}
-            </StreamPageBlock>
-        </Template>
-    );
+
+                      );
+                    })}
+                  </div>
+                </Grid>
+              </div>
+            </div>
+          </div>
+        </div>
+      </StreamPageBlock>
+    </Template>
+  );
 };
 
 export default StreamPage;

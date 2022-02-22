@@ -21,7 +21,7 @@ import {
     faMessage,
 } from '@fortawesome/free-solid-svg-icons';
 
-import { actionsCreators as musicActions } from '../redux/music';
+import { actionsCreators as musicActions } from "../redux/music";
 
 const DetailPage = () => {
     const dispatch = useDispatch();

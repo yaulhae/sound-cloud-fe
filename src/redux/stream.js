@@ -8,17 +8,10 @@ export const getStreamList = createAction(GET_STREALIST, (streamList) => ({
   streamList,
 }));
 
-const initialState = {
-  streamList: null,
-};
-
 export const getStreamListFB = () => {
   return async (dispatch, getState) => {
-    console.log("2");
     try {
-      console.log("왔니?");
-      const response = await apis.get(`/stream/6`);
-      console.log(response.data);
+      const response = await apis.get(`/stream/12`);
       const streamList = response.data;
       dispatch(getStreamList(streamList));
     } catch (e) {
@@ -27,10 +20,15 @@ export const getStreamListFB = () => {
   };
 };
 
+const initialState = {
+  streamList: null,
+};
 const stream = handleActions(
   {
     [GET_STREALIST]: (state, action) =>
-      produce(state, (draft) => (draft.streamList = action.payload.streamList)),
+      produce(state, (draft) => {
+        draft.streamList = action.payload.streamList;
+      }),
   },
   initialState
 );

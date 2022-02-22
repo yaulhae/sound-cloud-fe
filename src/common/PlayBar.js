@@ -6,6 +6,7 @@ import {
   faForwardStep,
   faHeart,
   faListOl,
+  faPause,
   faPlay,
   faRotate,
   faShuffle,
@@ -14,8 +15,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Image, Text } from "../elements";
 import { useSelector } from "react-redux";
-import track from "../redux/track";
+import track, { isPlaying } from "../redux/track";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const PlayBarBlock = styled.div`
   position: fixed;
@@ -35,6 +37,7 @@ const PlayBarBlock = styled.div`
     align-items: center;
     svg {
       margin-right: 1.5em;
+      cursor: pointer;
       &:nth-child(1) {
         margin-left: 1em;
       }
@@ -64,10 +67,11 @@ const PlayBarBlock = styled.div`
   }
   .progressBar {
     flex-grow: 1;
+    padding: 0.5em 0;
     .progress {
       background: #f50;
       height: 1px;
-      width: 160px; //지우기
+      /* width: 50%; //지우기 */
     }
     .backProgress {
       background: #ccc;
@@ -90,12 +94,20 @@ const PlayBarBlock = styled.div`
       margin-right: 1em;
     }
   }
+  input[type="range"] {
+    width: 100%;
+  }
 `;
 
 const PlayBar = () => {
   const now_playing = useSelector(({ track }) => track.now_playing);
   const now_playtime = useSelector(({ track }) => track.now_playtime);
   const now_endTime = useSelector(({ track }) => track.now_endTime);
+  const audioPlayer = useSelector(({ track }) => track.audio_player);
+  const [playing, setPlaying] = useState(true);
+
+  const dispatch = useDispatch();
+
   var playTime_min = Math.floor(now_playtime / 60);
   var playTime_sec = now_playtime % 60;
   let new_playTime = `${playTime_min}:${playTime_sec}`;
@@ -104,26 +116,85 @@ const PlayBar = () => {
   var endTime_sec = now_endTime % 60;
   let new_endTime = `${endTime_min}:${endTime_sec}`;
 
+  const progressRatio = (now_playtime / now_endTime) * 100;
+
+  const pauseMusic = () => {
+    audioPlayer.pause();
+    setPlaying(false);
+  };
+
+  const playMusic = () => {
+    audioPlayer.play();
+    setPlaying(true);
+  };
+
+  const skipForward = () => {
+    audioPlayer.skipForward(5);
+  };
+
+  const skipBackward = () => {
+    audioPlayer.skipBackward(5);
+  };
+
+  const progressControl = (e) => {
+    // const offsetx = e.nativeEvent.offsetX;
+    // console.log(offsetx);
+    const x = e.clientX - e.target.getBoundingClientRect().left;
+    const x_ratio = Math.floor(
+      (x / e.target.getBoundingClientRect().width) * 100
+    );
+    audioPlayer.seekTo(x_ratio / 100);
+
+    const mouseMove = (e) => {
+      const x = e.clientX - e.target.getBoundingClientRect().left;
+      const x_ratio = Math.floor(
+        (x / e.target.getBoundingClientRect().width) * 100
+      );
+      audioPlayer.seekTo(x_ratio / 100);
+    };
+    const mouseUp = () => {
+      e.target.removeEventListener("mousemove", mouseMove);
+      e.target.removeEventListener("mouseup", mouseUp);
+    };
+
+    e.target.addEventListener("mousemove", mouseMove);
+    e.target.addEventListener("mouseup", mouseUp);
+  };
+
   useEffect(() => {});
   return (
     <PlayBarBlock>
       <div className="playPlayer_container">
         <div className="playerIcon_container">
-          <FontAwesomeIcon icon={faBackwardStep} />
-          <FontAwesomeIcon icon={faPlay} />
-          <FontAwesomeIcon icon={faForwardStep} />
+          <FontAwesomeIcon icon={faBackwardStep} onClick={skipBackward} />
+          {playing ? (
+            <FontAwesomeIcon icon={faPause} onClick={pauseMusic} />
+          ) : (
+            <FontAwesomeIcon icon={faPlay} onClick={playMusic} />
+          )}
+          <FontAwesomeIcon icon={faForwardStep} onClick={skipForward} />
           <FontAwesomeIcon icon={faShuffle} />
           <FontAwesomeIcon icon={faRotate} />
         </div>
+
         <div className="progressBar_container">
           <span className="start_time">{new_playTime}</span>
-          <div className="progressBar">
-            <div className="progress"></div>
+          <div className="progressBar" onMouseDown={progressControl}>
+            <div
+              className="progress"
+              style={{ width: `${progressRatio}%` }}
+            ></div>
             <div className="backProgress"></div>
           </div>
+          {/* <input type="range" min="0" max="100" value={progressRatio} /> */}
           <span className="end_time">{new_endTime}</span>
-          <FontAwesomeIcon icon={faVolumeHigh} className="sound_icon" />
+          <FontAwesomeIcon
+            icon={faVolumeHigh}
+            className="sound_icon"
+            onClick={() => audioPlayer.toggleMute()}
+          />
         </div>
+
         <div className="track_info">
           <div className="image_cover">
             <Image size="32px" shape="rectangle" src={now_playing?.imageUrl} />

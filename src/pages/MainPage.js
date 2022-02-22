@@ -3,7 +3,8 @@ import React, { Component, useEffect, useRef } from "react";
 import Template from "../common/Template";
 import { Grid, Image, Text } from "../elements";
 import { useState } from "react";
-import { Settings } from "../common/settings";
+import "../index.css";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Slider from "react-slick";
@@ -25,7 +26,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Controls from "../common/Controls";
 // import music from "./y2mate.com-IFeelItComing.mp3";
 import { colors } from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
+import { actionsCreators as playlistActions } from "../redux/playlist";
+import "slick-carousel/slick/slick.css";
 
+import "slick-carousel/slick/slick-theme.css";
 const MainPageBlock = styled.div`
   .layout_container {
     position: relative;
@@ -96,8 +101,8 @@ const MainPageBlock = styled.div`
   .Inimage {
     text-align: center;
     position: absolute;
-    top: 21%;
-    transform: translate(145%);
+    top: 23%;
+    transform: translate(120%);
     color: #f50;
     opacity: 0;
   }
@@ -189,6 +194,17 @@ const MainPageBlock = styled.div`
 `;
 
 const MainPage = () => {
+  // const dispatch = useDispatch();
+  // const top5List = useSelector(({ playlist }) => playlist.top5List);
+
+  //null
+
+  // React.useEffect(() => {
+  //   dispatch(playlistActions.getTopListFB());
+  // }, []);
+
+  //useEffect 스킬 발동 => 배열을 가져오죠!
+
   const [Charts, setCharts] = useState([
     {
       imageUrl:
@@ -205,6 +221,30 @@ const MainPage = () => {
     {
       imageUrl:
         "https://image.bugsm.co.kr/album/images/original/203568/20356818.jpg?version=undefined",
+      name: "Hip-hop & Rap",
+      rank: "Top 50",
+    },
+    {
+      imageUrl:
+        "https://image.bugsm.co.kr/album/images/original/8598/859812.jpg?version=undefined",
+      name: "Hip-hop & Rap",
+      rank: "Top 50",
+    },
+    {
+      imageUrl:
+        "https://image.bugsm.co.kr/album/images/original/8598/859812.jpg?version=undefined",
+      name: "Hip-hop & Rap",
+      rank: "Top 50",
+    },
+    {
+      imageUrl:
+        "https://image.bugsm.co.kr/album/images/original/8598/859812.jpg?version=undefined",
+      name: "Hip-hop & Rap",
+      rank: "Top 50",
+    },
+    {
+      imageUrl:
+        "https://image.bugsm.co.kr/album/images/original/8598/859812.jpg?version=undefined",
       name: "Hip-hop & Rap",
       rank: "Top 50",
     },
@@ -275,73 +315,68 @@ const MainPage = () => {
       playCnt: 23,
     },
   ]);
-  const settings = {
-    dots: false,
-    infinite: false,
+  const settingsNoModules = {
+    dots: true,
+    infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    dotsClass: "button__bar",
+    arrows: true,
   };
   return (
     <Template>
-      {/* <div>
-        <h2> Single Item</h2>
-        <Slider {...settings}>
-          <div>
-            <h3>1</h3>
-          </div>
-          <div>
-            <h3>2</h3>
-          </div>
-          <div>
-            <h3>3</h3>
-          </div>
-          <div>
-            <h3>4</h3>
-          </div>
-          <div>
-            <h3>5</h3>
-          </div>
-          <div>
-            <h3>6</h3>
-          </div>
-        </Slider>
-      </div> */}
       <MainPageBlock>
         <div className="layout_container">
           <div className="layout_left">
+            {/* ///////
+             */}
             <div className="flex_box">
               <Text size="2rem" margin="0 0 1em 0">
                 Recently Played
               </Text>
-              <Grid>
-                <div className="flex-container">
-                  {Charts.map((stream, idx) => {
-                    return (
-                      <div className="flex_box">
-                        <div className="box_hover">
-                          <Image
-                            shape="rectangle"
-                            size="160px"
-                            src={stream.imageUrl}
-                          />
-                          <div className="Inimage">
-                            <FontAwesomeIcon
-                              icon={faPlayCircle}
-                              size="3x"
-                              onClick={() => {}}
-                            />
-                          </div>
-                        </div>
-                        <p className="artist_name">{stream.name}</p>
-                        <p className="artist_title">{stream.rank}</p>
-                      </div>
-                    );
-                  })}
-                </div>
-                <div className="layout_bottom "></div>
-              </Grid>
             </div>
+
+            <div>
+              <Slider {...settingsNoModules}>
+                <div>
+                  <p>
+                    <Grid>
+                      <div>
+                        <div className="flex-container">
+                          {Charts.map((stream, idx) => {
+                            return (
+                              <div className="flex_box" key={idx}>
+                                <div className="box_hover">
+                                  <Image
+                                    shape="rectangle"
+                                    size="160px"
+                                    src={stream.imageUrl}
+                                  />
+                                  <div className="Inimage">
+                                    <FontAwesomeIcon
+                                      icon={faPlayCircle}
+                                      size="3x"
+                                      onClick={() => {}}
+                                    />
+                                  </div>
+                                </div>
+                                <p className="artist_name">{stream.name}</p>
+                                <p className="artist_title">{stream.rank}</p>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <div className="layout_bottom "></div>
+                      </div>
+                    </Grid>
+                  </p>
+                </div>
+                <div></div>
+              </Slider>
+            </div>
+
+            {/* //// */}
             <div className="flex_box">
               <Text size="2rem" margin="0 0 1em 0">
                 <p>Charts: Top 50</p>
@@ -349,132 +384,239 @@ const MainPage = () => {
                   The most played tracks on SoundCloud this week
                 </p>
               </Text>
-              <Grid>
-                <div className="flex-container">
-                  {Charts.map((stream, idx) => {
-                    return (
-                      <div className="flex_box">
-                        <Image
-                          shape="rectangle"
-                          size="160px"
-                          src={stream.imageUrl}
-                        />
-                        <div className="Inimage">
-                          <FontAwesomeIcon
-                            icon={faPlayCircle}
-                            size="3x"
-                            onClick={() => {}}
-                          />
-                        </div>
-                        <p className="artist_name">{stream.name}</p>
-                        <p className="artist_title">{stream.rank}</p>
-                      </div>
-                    );
-                  })}
-                </div>
-                <div className="layout_bottom "></div>
-              </Grid>
             </div>
-            <div className="flex_box">
-              <Text size="2rem" margin="0 0 1em 0">
-                <p>Charts:New & hot</p>
-                <p className="font">Up-and-coming tracks on SoundCloud</p>
-              </Text>
-              <Grid>
-                <div className="flex-container">
-                  {Charts.map((stream, idx) => {
-                    return (
-                      <div className="flex_box">
-                        <Image
-                          shape="rectangle"
-                          size="160px"
-                          src={stream.imageUrl}
-                        />
-                        <div className="Inimage">
-                          <FontAwesomeIcon
-                            icon={faPlayCircle}
-                            size="3x"
-                            onClick={() => {}}
-                          />
+            <div>
+              <Slider {...settingsNoModules}>
+                <div>
+                  <p>
+                    <Grid>
+                      <div>
+                        <div className="flex-container">
+                          {Charts.map((stream, idx) => {
+                            return (
+                              <div className="flex_box" key={idx}>
+                                <div className="box_hover">
+                                  <Image
+                                    shape="rectangle"
+                                    size="160px"
+                                    src={stream.imageUrl}
+                                  />
+                                  <div className="Inimage">
+                                    <FontAwesomeIcon
+                                      icon={faPlayCircle}
+                                      size="3x"
+                                      onClick={() => {}}
+                                    />
+                                  </div>
+                                </div>
+                                <p className="artist_name">{stream.name}</p>
+                                <p className="artist_title">{stream.rank}</p>
+                              </div>
+                            );
+                          })}
                         </div>
-                        <p className="artist_name">{stream.name}</p>
-                        <p className="artist_title">{stream.rank}</p>
+                        <div className="layout_bottom "></div>
                       </div>
-                    );
-                  })}
+                    </Grid>
+                  </p>
                 </div>
-                <div className="layout_bottom "></div>
-              </Grid>
-            </div>
-            <div className="flex_box">
-              <Text size="2rem" margin="0 0 1em 0">
-                <p>Study</p>
-                <p className="font">
-                  Popular playlists from the SoundCloud community
-                </p>
-              </Text>
-              <Grid>
-                <div className="flex-container">
-                  {Charts.map((stream, idx) => {
-                    return (
-                      <div className="flex_box">
-                        <Image
-                          shape="rectangle"
-                          size="160px"
-                          src={stream.imageUrl}
-                        />
-                        <div className="Inimage">
-                          <FontAwesomeIcon
-                            icon={faPlayCircle}
-                            size="3x"
-                            onClick={() => {}}
-                          />
-                        </div>
-                        <p className="artist_name">{stream.name}</p>
-                        <p className="artist_title">{stream.rank}</p>
-                      </div>
-                    );
-                  })}
-                </div>
-                <div className="layout_bottom "></div>
-              </Grid>
+                <div></div>
+              </Slider>
             </div>
 
             <div className="flex_box">
               <Text size="2rem" margin="0 0 1em 0">
-                <p>Chill</p>
+                <p>Charts: Top 50</p>
                 <p className="font">
-                  Popular playlists from the SoundCloud community{" "}
+                  The most played tracks on SoundCloud this week
                 </p>
               </Text>
-              <Grid>
-                <div className="flex-container">
-                  {Charts.map((stream, idx) => {
-                    return (
-                      <div className="flex_box">
-                        <Image
-                          shape="rectangle"
-                          size="160px"
-                          src={stream.imageUrl}
-                        />
-                        <div className="Inimage">
-                          <FontAwesomeIcon
-                            icon={faPlayCircle}
-                            size="3x"
-                            onClick={() => {}}
-                          />
-                        </div>
-                        <p className="artist_name">{stream.name}</p>
-                        <p className="artist_title">{stream.rank}</p>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                <div className="layout_bottom "></div>
-              </Grid>
             </div>
+            <div>
+              <Slider {...settingsNoModules}>
+                <div>
+                  <p>
+                    <Grid>
+                      <div>
+                        <div className="flex-container">
+                          {Charts.map((stream, idx) => {
+                            return (
+                              <div className="flex_box" key={idx}>
+                                <div className="box_hover">
+                                  <Image
+                                    shape="rectangle"
+                                    size="160px"
+                                    src={stream.imageUrl}
+                                  />
+                                  <div className="Inimage">
+                                    <FontAwesomeIcon
+                                      icon={faPlayCircle}
+                                      size="3x"
+                                      onClick={() => {}}
+                                    />
+                                  </div>
+                                </div>
+                                <p className="artist_name">{stream.name}</p>
+                                <p className="artist_title">{stream.rank}</p>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <div className="layout_bottom "></div>
+                      </div>
+                    </Grid>
+                  </p>
+                </div>
+                <div></div>
+              </Slider>
+            </div>
+
+            <div className="flex_box">
+              <Text size="2rem" margin="0 0 1em 0">
+                <p>Charts: Top 50</p>
+                <p className="font">
+                  The most played tracks on SoundCloud this week
+                </p>
+              </Text>
+            </div>
+            <div>
+              <Slider {...settingsNoModules}>
+                <div>
+                  <p>
+                    <Grid>
+                      <div>
+                        <div className="flex-container">
+                          {Charts.map((stream, idx) => {
+                            return (
+                              <div className="flex_box" key={idx}>
+                                <div className="box_hover">
+                                  <Image
+                                    shape="rectangle"
+                                    size="160px"
+                                    src={stream.imageUrl}
+                                  />
+                                  <div className="Inimage">
+                                    <FontAwesomeIcon
+                                      icon={faPlayCircle}
+                                      size="3x"
+                                      onClick={() => {}}
+                                    />
+                                  </div>
+                                </div>
+                                <p className="artist_name">{stream.name}</p>
+                                <p className="artist_title">{stream.rank}</p>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <div className="layout_bottom "></div>
+                      </div>
+                    </Grid>
+                  </p>
+                </div>
+                <div></div>
+              </Slider>
+            </div>
+
+            <div className="flex_box">
+              <Text size="2rem" margin="0 0 1em 0">
+                <p>Charts: Top 50</p>
+                <p className="font">
+                  The most played tracks on SoundCloud this week
+                </p>
+              </Text>
+            </div>
+            <div>
+              <Slider {...settingsNoModules}>
+                <div>
+                  <p>
+                    <Grid>
+                      <div>
+                        <div className="flex-container">
+                          {Charts.map((stream, idx) => {
+                            return (
+                              <div className="flex_box" key={idx}>
+                                <div className="box_hover">
+                                  <Image
+                                    shape="rectangle"
+                                    size="160px"
+                                    src={stream.imageUrl}
+                                  />
+                                  <div className="Inimage">
+                                    <FontAwesomeIcon
+                                      icon={faPlayCircle}
+                                      size="3x"
+                                      onClick={() => {}}
+                                    />
+                                  </div>
+                                </div>
+                                <p className="artist_name">{stream.name}</p>
+                                <p className="artist_title">{stream.rank}</p>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <div className="layout_bottom "></div>
+                      </div>
+                    </Grid>
+                  </p>
+                </div>
+                <div></div>
+              </Slider>
+            </div>
+
+            <div className="flex_box">
+              <Text size="2rem" margin="0 0 1em 0">
+                <p>Charts: Top 50</p>
+                <p className="font">
+                  The most played tracks on SoundCloud this week
+                </p>
+              </Text>
+            </div>
+            <div>
+              <Slider {...settingsNoModules}>
+                <div>
+                  <p>
+                    <Grid>
+                      <div>
+                        <div className="flex-container">
+                          {Charts.map((stream, idx) => {
+                            return (
+                              <div className="flex_box" key={idx}>
+                                <div className="box_hover">
+                                  <Image
+                                    shape="rectangle"
+                                    size="160px"
+                                    src={stream.imageUrl}
+                                  />
+                                  <div className="Inimage">
+                                    <FontAwesomeIcon
+                                      icon={faPlayCircle}
+                                      size="3x"
+                                      onClick={() => {}}
+                                    />
+                                  </div>
+                                </div>
+                                <p className="artist_name">{stream.name}</p>
+                                <p className="artist_title">{stream.rank}</p>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <div className="layout_bottom "></div>
+                      </div>
+                    </Grid>
+                  </p>
+                </div>
+                <div></div>
+              </Slider>
+            </div>
+
+            {/* ///////////// */}
           </div>
+        </div>
+
+        <div>
           <div className="layout_right">
             <div className="layout_fixed">
               <div className="right_container" style={{ marginBottom: "em" }}>
@@ -622,7 +764,10 @@ const MainPage = () => {
                     </div>
                     <div className="google"></div>
                   </Grid>
-                  <img src="https://www.sarahwerner.com/wp-content/uploads/2013/11/get-it-on-google-play.png" />
+                  <img
+                    src="https://www.sarahwerner.com/wp-content/uploads/2013/11/get-it-on-google-play.png"
+                    size="10%"
+                  />
                 </Grid>
               </div>
             </div>
@@ -634,3 +779,24 @@ const MainPage = () => {
 };
 
 export default MainPage;
+{
+  /* <Slider {...settings}>
+        <div>
+          <div>
+            <h3>2</h3>
+          </div>
+          <div>
+            <h3>3</h3>
+          </div>
+          <div>
+            <h3>4</h3>
+          </div>
+          <div>
+            <h3>5</h3>
+          </div>
+          <div>
+            <h3>6</h3>
+          </div>
+        </div>
+      </Slider> */
+}
