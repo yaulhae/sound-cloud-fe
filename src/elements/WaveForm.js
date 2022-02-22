@@ -1,28 +1,31 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect, useRef, Component } from 'react';
 import styled from 'styled-components';
 import WaveSurfer from 'wavesurfer.js';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
+
 import '../waveForm.css';
 
-class WaveForm extends Component {
-    state = {
-        playing: false,
-        duration: 0,
-        curTime: 0,
-    };
+import formatTime from '../common/formatTime';
 
-    componentDidMount() {
-        const track = document.querySelector('#track');
-        const container = document.querySelector('#waveform');
+const WaveForm = props => {
+    const player = useRef(null);
 
-        this.waveform = WaveSurfer.create({
-            container: container,
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [duration, setDuration] = useState(0);
+    const [curTime, setCurTime] = useState('0:00');
+
+    useEffect(() => {
+        player.current = WaveSurfer.create({
+            container: player.current,
             barWidth: 2,
             barRadius: 1,
             barGap: 2,
             barMinHeight: 1,
             cursorWidth: 1,
-            backend: 'MediaElementWebAudio',
+            // backend: 'MediaElementWebAudio',
+            backend: 'WebAudio',
             height: 180,
             progressColor: '#FE6E00',
             responsive: true,
@@ -30,48 +33,45 @@ class WaveForm extends Component {
             cursorColor: 'transparent',
         });
 
-        this.waveform.load(track);
-
-        console.log(this.props.url);
-
-        this.waveform.on('ready', () => {
-            const h = parseInt(this.waveform.getDuration() / 3600)
-                ? parseInt(this.waveform.getDuration() / 3600) + ' :'
-                : '';
-            const m = parseInt((this.waveform.getDuration() % 3600) / 60);
-            const s = parseInt(this.waveform.getDuration() % 60);
-            this.setState({ duration: `${h} ${m} : ${s}` });
+        player.current?.on('ready', () => {
+            setDuration(formatTime(player.current?.getDuration()));
         });
 
-        setInterval(() => {
-            if (this.state.playing) {
-                this.setState({
-                    curTime: parseInt(this.waveform.getCurrentTime()),
-                });
-                console.log(this.state.curTime);
-            }
-        }, 1000);
-    }
+        player.current?.on('audioprocess', function () {
+            setCurTime(formatTime(player.current.getCurrentTime()));
+        });
 
-    handlePlay = () => {
-        this.setState({ playing: !this.state.playing });
-        !this.state.playing ? this.waveform.play() : this.waveform.pause();
+        player.current.load(props.url || 'url');
+    }, []);
+
+    const handlePlay = () => {
+        setIsPlaying(!isPlaying);
+        if (!isPlaying) {
+            console.log('play');
+            player.current?.play();
+        } else {
+            console.log('pause');
+            player.current?.pause();
+        }
     };
 
-    render() {
-        return (
-            <WaveformContianer>
-                <PlayButton onClick={this.handlePlay}>
-                    {!this.state.playing ? 'Play' : 'Pause'}
-                </PlayButton>
-                <Wave id="waveform" />
-                <audio id="track" src={this.props.url ? this.props.url : ''} />
-                <CurTimeLabel>{this.state.curTime}</CurTimeLabel>
-                <DurationLabel>{this.state.duration}</DurationLabel>
-            </WaveformContianer>
-        );
-    }
-}
+    console.log(player, isPlaying, duration, curTime);
+
+    return (
+        <WaveformContianer>
+            <PlayButton onClick={handlePlay}>
+                {!isPlaying ? (
+                    <FontAwesomeIcon icon={faPlay} size="2x" />
+                ) : (
+                    <FontAwesomeIcon icon={faPause} size="2x" />
+                )}
+            </PlayButton>
+            <Wave id="waveform" ref={player} />
+            <CurTimeLabel>{curTime}</CurTimeLabel>
+            <DurationLabel>{duration}</DurationLabel>
+        </WaveformContianer>
+    );
+};
 
 WaveForm.defaultProps = {
     url: null,
@@ -79,7 +79,7 @@ WaveForm.defaultProps = {
 
 const PlayButton = styled.button`
     position: absolute;
-    top: 20px;
+    top: 22px;
     left: 0px;
     opacity: 1;
     width: 60px;
@@ -89,6 +89,7 @@ const PlayButton = styled.button`
     outline: none;
     cursor: pointer;
     padding-bottom: 3px;
+    color: white;
 `;
 
 const WaveformContianer = styled.div`
@@ -110,13 +111,26 @@ const Wave = styled.div`
 
 const CurTimeLabel = styled.div`
     position: absolute;
-    left: 1px;
+    bottom: 38px;
     z-index: 2;
+    line-height: 1;
+    background: black;
+    color: #9d9d9d;
+    font-size: 0.7em;
+    padding: 2px 2px 0px;
+    mix-blend-mode: multiply;
 `;
 const DurationLabel = styled.div`
     position: absolute;
-    right: 1px;
+    right: 0px;
+    bottom: 38px;
     z-index: 2;
+    line-height: 1;
+    background: black;
+    color: #9d9d9d;
+    font-size: 0.7em;
+    padding: 2px 2px 0px;
+    mix-blend-mode: multiply;
 `;
 
 export default WaveForm;
