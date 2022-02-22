@@ -25,6 +25,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Controls from "../common/Controls";
 import music from "./y2mate.com-IFeelItComing.mp3";
 import { colors } from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
+import { actionsCreators as playlistActions } from "../redux/playlist";
 
 const MainPageBlock = styled.div`
   .layout_container {
@@ -189,6 +191,17 @@ const MainPageBlock = styled.div`
 `;
 
 const MainPage = () => {
+  const dispatch = useDispatch();
+  const top5List = useSelector(({ playlist }) => playlist.top5List);
+
+  //null
+
+  // React.useEffect(() => {
+  //   dispatch(playlistActions.getTopListFB());
+  // }, []);
+
+  //useEffect 스킬 발동 => 배열을 가져오죠!
+
   const [Charts, setCharts] = useState([
     {
       imageUrl:
@@ -316,9 +329,9 @@ const MainPage = () => {
               </Text>
               <Grid>
                 <div className="flex-container">
-                  {Charts.map((stream, idx) => {
+                  {top5List.hiphop.map((stream, idx) => {
                     return (
-                      <div className="flex_box">
+                      <div className="flex_box" key={idx}>
                         <div className="box_hover">
                           <Image
                             shape="rectangle"
@@ -342,6 +355,7 @@ const MainPage = () => {
                 <div className="layout_bottom "></div>
               </Grid>
             </div>
+
             <div className="flex_box">
               <Text size="2rem" margin="0 0 1em 0">
                 <p>Charts: Top 50</p>
@@ -375,6 +389,7 @@ const MainPage = () => {
                 <div className="layout_bottom "></div>
               </Grid>
             </div>
+
             <div className="flex_box">
               <Text size="2rem" margin="0 0 1em 0">
                 <p>Charts:New & hot</p>
@@ -406,6 +421,7 @@ const MainPage = () => {
                 <div className="layout_bottom "></div>
               </Grid>
             </div>
+
             <div className="flex_box">
               <Text size="2rem" margin="0 0 1em 0">
                 <p>Study</p>
@@ -475,6 +491,7 @@ const MainPage = () => {
               </Grid>
             </div>
           </div>
+
           <div className="layout_right">
             <div className="layout_fixed">
               <div className="right_container" style={{ marginBottom: "em" }}>
