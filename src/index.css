@@ -1,23 +1,23 @@
 * {
-    margin: 0;
-    padding: 0;
-    font: inherit;
-    color: inherit;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
 }
 *,
 :after,
 :before {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 :root {
-    -webkit-tap-highlight-color: transparent;
-    -webkit-text-size-adjust: 100%;
-    text-size-adjust: 100%;
-    cursor: default;
-    line-height: 1.5;
-    overflow-wrap: break-word;
-    -moz-tab-size: 4;
-    tab-size: 4;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  cursor: default;
+  line-height: 1.5;
+  overflow-wrap: break-word;
+  -moz-tab-size: 4;
+  tab-size: 4;
 }
 html,
 body {
@@ -29,8 +29,8 @@ img,
 picture,
 video,
 svg {
-    display: block;
-    max-width: 100%;
+  display: block;
+  max-width: 100%;
   display: block;
 }
 canvas {
@@ -39,23 +39,63 @@ canvas {
 }
 
 button {
-    background: none;
-    border: 0;
-    cursor: pointer;
+  background: none;
+  border: 0;
+  cursor: pointer;
 }
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 table {
-    border-collapse: collapse;
-    border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 ul {
-    list-style: none;
+  list-style: none;
 }
 
-.type1 .swiper-slider {
+.button__bar {
+  display: inline-block;
+  vertical-align: middle;
+  margin: auto;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 40px;
+  width: 70px;
+  text-align: center;
 }
 
-.type2 .test.test .swiper-slider {
+.button__bar li {
+  list-style: none;
+  cursor: pointer;
+  display: inline-block;
+  margin: 0 3px;
+  padding: 0;
+}
+
+.button__bar li button {
+  border: none;
+  background: #a53692;
+  color: transparent;
+  cursor: pointer;
+  display: block;
+  height: 15px;
+  width: 15px;
+  border-radius: 7.5px;
+}
+
+.button__bar li.slick-active button {
+  background-color: rgb(8, 255, 140);
+}
+
+.button__bar li button:hover,
+.button__bar li button:focus {
+  background: rgba(247, 34, 34, 0.8);
+  outline: 0;
+}
+
+.slick-slide img {
+  border: 5px solid #fff;
+  display: block;
+  margin: auto;
 }
