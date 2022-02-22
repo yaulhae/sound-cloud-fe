@@ -21,13 +21,15 @@ import {
     faMessage,
 } from '@fortawesome/free-solid-svg-icons';
 
-import { actionsCreators as musicActions } from "../redux/music";
+import { actionsCreators as musicActions } from '../redux/music';
 
 const DetailPage = () => {
     const dispatch = useDispatch();
 
-    const { music } = useSelector(({ music }) => music?.music);
-    const { commentList } = useSelector(({ music }) => music?.music);
+    const [isLoaded, setIsLoaded] = React.useState(false);
+
+    const music = useSelector(({ music }) => music?.music?.music);
+    const commentList = useSelector(({ music }) => music?.music?.commentList);
 
     const { data } = usePalette(music?.imageUrl);
 
@@ -42,137 +44,149 @@ const DetailPage = () => {
         }
     };
 
-    React.useEffect(() => {
-        if (music) return;
-        dispatch(musicActions.getOneMusicAPI());
-    }, [music]);
+    // React.useEffect(() => {
+    //     if (music) return;
+    //     console.log('재렌더링');
+    //     dispatch(musicActions.getOneMusicAPI(1));
+    // }, []);
+    // 뭐야 얘 없어도 되잖아..
 
-    // console.log(music.imageUrl);
+    console.log(music);
     // console.log(commentList);
     // store의 값을 확인하고 싶으면 useEffect 밖에서.....
 
-    return (
-        <TemplateRyu>
-            <DetailPageBlock>
-                <PlayerWrapper
-                    style={{
-                        background: `linear-gradient(100deg, ${darkMuted}, ${vibrant})`,
-                    }}
-                >
-                    <LeftWrapper>
-                        <PlayButtonWrapper>
-                            <PlayButton></PlayButton>
-                            <TitleArtistWrapper>
-                                <Title>{music?.musicTitle}</Title>
-                                <Artist>{music?.artistName}</Artist>
-                            </TitleArtistWrapper>
-                            <Created>
-                                {moment(
-                                    music?.createdAt
-                                        .split(' ')[0]
-                                        .replaceAll('-', ''),
-                                    'YYYYMMDD'
-                                ).fromNow()}
-                            </Created>
-                        </PlayButtonWrapper>
-                        <WaveForm url={music?.musicUrl} />
-                    </LeftWrapper>
-                    <MusicCover
+    // 새로고침 드디어 해결!!!!!!!!!!!!!!!
+    if (!music) {
+        dispatch(musicActions.getOneMusicAPI(1));
+        return <></>;
+    } else
+        return (
+            <TemplateRyu>
+                <DetailPageBlock>
+                    <PlayerWrapper
                         style={{
-                            backgroundImage: `url(${music?.imageUrl})
-`,
+                            background: `linear-gradient(100deg, ${darkMuted}, ${vibrant})`,
                         }}
-                    />
-                </PlayerWrapper>
-                <InfoWrapper>
-                    <InputWrapper>
-                        <InputContainer>
-                            <UserImage />
-                            <CommentInput
-                                placeholder="Write a comment"
-                                onKeyUp={enterKey}
-                                ref={commentInput}
-                            />
-                        </InputContainer>
-                        <ButtonWrapper>
-                            <BorderButton>
-                                <FontAwesomeIcon icon={faHeart} />
-                            </BorderButton>
-                            <BorderButton>
-                                <FontAwesomeIcon icon={faRepeat} />
-                            </BorderButton>
-                            <BorderButton>
-                                <FontAwesomeIcon icon={faShareFromSquare} />
-                            </BorderButton>
-                            <BorderButton>
-                                <FontAwesomeIcon icon={faPaperclip} />
-                            </BorderButton>
-                            <BorderButton>
-                                <FontAwesomeIcon icon={faEllipsis} />
-                            </BorderButton>
-                            <TextWrapper>
-                                <FontAwesomeIcon icon={faPlay} />
-                                <PlayCount>0</PlayCount>
-                            </TextWrapper>
-                        </ButtonWrapper>
-                    </InputWrapper>
-                    <Column>
-                        <ArtistWrapper>
-                            <ArtistImage></ArtistImage>
-                            <div>{music?.artistName}</div>
-                        </ArtistWrapper>
-                        <CommentWrapper>
-                            <CommentCountContainer>
-                                <FontAwesomeIcon icon={faMessage} />
-                                <CommentCount>
-                                    {commentList?.length} comments
-                                </CommentCount>
-                            </CommentCountContainer>
-                            <CommentList>
-                                {commentList?.map(comment => {
-                                    return (
-                                        <CommentContainer>
-                                            <UserImage
-                                                shape="cir"
-                                                src={comment.UserImage}
-                                            ></UserImage>
-                                            <ContentWrapper>
-                                                <UserName>
-                                                    {comment.commentUser}
-                                                    <span
-                                                        style={{
-                                                            color: '#ccc',
-                                                            fontSize: '0.9em',
-                                                        }}
-                                                    >
-                                                        at
-                                                    </span>{' '}
-                                                    {formatTime(
-                                                        comment.commentTime
-                                                    )}
-                                                </UserName>
-                                                <Comment>
-                                                    {comment.commentContent}
-                                                </Comment>
-                                            </ContentWrapper>
-                                            <CommentCreated>
-                                                {moment(
-                                                    comment?.createdAt
-                                                        .split(' ')[0]
-                                                        .replaceAll('-', ''),
-                                                    'YYYYMMDD'
-                                                ).fromNow()}
-                                            </CommentCreated>
-                                        </CommentContainer>
-                                    );
-                                })}
-                            </CommentList>
-                        </CommentWrapper>
-                    </Column>
-                </InfoWrapper>
-            </DetailPageBlock>
-        </TemplateRyu>
-    );
+                    >
+                        <LeftWrapper>
+                            <PlayButtonWrapper>
+                                <PlayButton></PlayButton>
+                                <TitleArtistWrapper>
+                                    <Title>{music?.musicTitle}</Title>
+                                    <Artist>{music?.artistName}</Artist>
+                                </TitleArtistWrapper>
+                                <Created>
+                                    {moment(
+                                        music?.createdAt
+                                            .split(' ')[0]
+                                            .replaceAll('-', ''),
+                                        'YYYYMMDD'
+                                    ).fromNow()}
+                                </Created>
+                            </PlayButtonWrapper>
+                            <WaveForm />
+                        </LeftWrapper>
+                        <MusicCover
+                            style={{
+                                backgroundImage: `url(${music?.imageUrl})
+`,
+                            }}
+                        />
+                    </PlayerWrapper>
+                    <InfoWrapper>
+                        <InputWrapper>
+                            <InputContainer>
+                                <UserImage />
+                                <CommentInput
+                                    placeholder="Write a comment"
+                                    onKeyUp={enterKey}
+                                    ref={commentInput}
+                                />
+                            </InputContainer>
+                            <ButtonWrapper>
+                                <BorderButton>
+                                    <FontAwesomeIcon icon={faHeart} />
+                                </BorderButton>
+                                <BorderButton>
+                                    <FontAwesomeIcon icon={faRepeat} />
+                                </BorderButton>
+                                <BorderButton>
+                                    <FontAwesomeIcon icon={faShareFromSquare} />
+                                </BorderButton>
+                                <BorderButton>
+                                    <FontAwesomeIcon icon={faPaperclip} />
+                                </BorderButton>
+                                <BorderButton>
+                                    <FontAwesomeIcon icon={faEllipsis} />
+                                </BorderButton>
+                                <TextWrapper>
+                                    <FontAwesomeIcon icon={faPlay} />
+                                    <PlayCount>0</PlayCount>
+                                </TextWrapper>
+                            </ButtonWrapper>
+                        </InputWrapper>
+                        <Column>
+                            <ArtistWrapper>
+                                <ArtistImage></ArtistImage>
+                                <div>{music?.artistName}</div>
+                            </ArtistWrapper>
+                            <CommentWrapper>
+                                <CommentCountContainer>
+                                    <FontAwesomeIcon icon={faMessage} />
+                                    <CommentCount>
+                                        {commentList?.length} comments
+                                    </CommentCount>
+                                </CommentCountContainer>
+                                <CommentList>
+                                    {commentList?.map((comment, idx) => {
+                                        return (
+                                            <CommentContainer key={idx}>
+                                                <UserImage
+                                                    shape="cir"
+                                                    src={comment.UserImage}
+                                                    key={idx}
+                                                />
+                                                <ContentWrapper>
+                                                    <UserName>
+                                                        {comment.commentUser}
+                                                        <span
+                                                            style={{
+                                                                color: '#ccc',
+                                                                fontSize:
+                                                                    '0.9em',
+                                                            }}
+                                                        >
+                                                            at
+                                                        </span>{' '}
+                                                        {formatTime(
+                                                            comment.commentTime
+                                                        )}
+                                                    </UserName>
+                                                    <Comment>
+                                                        {comment.commentContent}
+                                                    </Comment>
+                                                </ContentWrapper>
+                                                <CommentCreated>
+                                                    {moment(
+                                                        comment?.createdAt
+                                                            .split(' ')[0]
+                                                            .replaceAll(
+                                                                '-',
+                                                                ''
+                                                            ),
+                                                        'YYYYMMDD'
+                                                    ).fromNow()}
+                                                </CommentCreated>
+                                            </CommentContainer>
+                                        );
+                                    })}
+                                </CommentList>
+                            </CommentWrapper>
+                        </Column>
+                    </InfoWrapper>
+                </DetailPageBlock>
+            </TemplateRyu>
+        );
 };
 
 const DetailPageBlock = styled.div`
