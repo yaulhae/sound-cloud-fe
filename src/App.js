@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import DetailPage from "./pages/DetailPage";
 import MainPage from "./pages/MainPage";
 import StreamPage from "./pages/StreamPage";
+// import Slick from "./common/slick";
 import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import Header from "./common/Header";
@@ -77,6 +78,7 @@ function App() {
         <Route path="/" element={<MainPage />} />
         <Route path="/detail" element={<DetailPage />} />
         <Route path="/stream" element={<StreamPage />} />
+        {/* <Route path="/stream" element={<Slick />} /> */}
       </Routes>
       {now_playing && <PlayBar />}
     </HistoryRouter>
