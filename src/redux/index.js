@@ -3,8 +3,8 @@ import thunk from "redux-thunk";
 
 import stream from "./stream";
 import track from "./track";
-
-const rootReducer = combineReducers({ track, stream });
+import playlist from "./playlist";
+const rootReducer = combineReducers({ playlist, track, stream });
 
 const middlewares = [thunk];
 

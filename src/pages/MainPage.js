@@ -29,8 +29,8 @@ import { colors } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { actionsCreators as playlistActions } from "../redux/playlist";
 import "slick-carousel/slick/slick.css";
-
 import "slick-carousel/slick/slick-theme.css";
+
 const MainPageBlock = styled.div`
   .layout_container {
     position: relative;
@@ -194,67 +194,63 @@ const MainPageBlock = styled.div`
 `;
 
 const MainPage = () => {
-  // const dispatch = useDispatch();
-  // const top5List = useSelector(({ playlist }) => playlist.top5List);
+  const dispatch = useDispatch();
+  const Charts = useSelector(({ playlist }) => playlist.top5List);
 
-  //null
+  React.useEffect(() => {
+    dispatch(playlistActions.getTopListFB());
+  }, []);
 
-  // React.useEffect(() => {
-  //   dispatch(playlistActions.getTopListFB());
-  // }, []);
-
-  //useEffect 스킬 발동 => 배열을 가져오죠!
-
-  const [Charts, setCharts] = useState([
-    {
-      imageUrl:
-        "https://image.bugsm.co.kr/album/images/original/5766/576613.jpg?version=undefined",
-      name: "Jazz & Blues",
-      rank: "Top 50",
-    },
-    {
-      imageUrl:
-        "https://image.bugsm.co.kr/album/images/original/5451/545138.jpg?version=undefined",
-      name: "YERINB",
-      rank: "top 50",
-    },
-    {
-      imageUrl:
-        "https://image.bugsm.co.kr/album/images/original/203568/20356818.jpg?version=undefined",
-      name: "Hip-hop & Rap",
-      rank: "Top 50",
-    },
-    {
-      imageUrl:
-        "https://image.bugsm.co.kr/album/images/original/8598/859812.jpg?version=undefined",
-      name: "Hip-hop & Rap",
-      rank: "Top 50",
-    },
-    {
-      imageUrl:
-        "https://image.bugsm.co.kr/album/images/original/8598/859812.jpg?version=undefined",
-      name: "Hip-hop & Rap",
-      rank: "Top 50",
-    },
-    {
-      imageUrl:
-        "https://image.bugsm.co.kr/album/images/original/8598/859812.jpg?version=undefined",
-      name: "Hip-hop & Rap",
-      rank: "Top 50",
-    },
-    {
-      imageUrl:
-        "https://image.bugsm.co.kr/album/images/original/8598/859812.jpg?version=undefined",
-      name: "Hip-hop & Rap",
-      rank: "Top 50",
-    },
-    {
-      imageUrl:
-        "https://image.bugsm.co.kr/album/images/original/8598/859812.jpg?version=undefined",
-      name: "Hip-hop & Rap",
-      rank: "Top 50",
-    },
-  ]);
+  // const [Charts, setCharts] = useState([
+  //   {
+  //     imageUrl:
+  //       "https://image.bugsm.co.kr/album/images/original/5766/576613.jpg?version=undefined",
+  //     name: "Jazz & Blues",
+  //     rank: "Top 50",
+  //   },
+  //   {
+  //     imageUrl:
+  //       "https://image.bugsm.co.kr/album/images/original/5451/545138.jpg?version=undefined",
+  //     name: "YERINB",
+  //     rank: "top 50",
+  //   },
+  //   {
+  //     imageUrl:
+  //       "https://image.bugsm.co.kr/album/images/original/203568/20356818.jpg?version=undefined",
+  //     name: "Hip-hop & Rap",
+  //     rank: "Top 50",
+  //   },
+  //   {
+  //     imageUrl:
+  //       "https://image.bugsm.co.kr/album/images/original/8598/859812.jpg?version=undefined",
+  //     name: "Hip-hop & Rap",
+  //     rank: "Top 50",
+  //   },
+  //   {
+  //     imageUrl:
+  //       "https://image.bugsm.co.kr/album/images/original/8598/859812.jpg?version=undefined",
+  //     name: "Hip-hop & Rap",
+  //     rank: "Top 50",
+  //   },
+  //   {
+  //     imageUrl:
+  //       "https://scontent-ssn1-1.xx.fbcdn.net/v/t31.18172-8/11133935_1609356205963402_6754719463200097210_o.jpg?_nc_cat=103&ccb=1-5&_nc_sid=e3f864&_nc_ohc=9k86Hr8bbS0AX9ZA1WJ&_nc_ht=scontent-ssn1-1.xx&oh=00_AT-Nbx4-mfZWpv5UJ-TS47KQP90rIt6lEP5MMOnRIeDVOA&oe=623BAB80",
+  //     name: "Hip-hop & Rap",
+  //     rank: "Top 50",
+  //   },
+  //   {
+  //     imageUrl:
+  //       "https://scontent-ssn1-1.xx.fbcdn.net/v/t31.18172-8/11133935_1609356205963402_6754719463200097210_o.jpg?_nc_cat=103&ccb=1-5&_nc_sid=e3f864&_nc_ohc=9k86Hr8bbS0AX9ZA1WJ&_nc_ht=scontent-ssn1-1.xx&oh=00_AT-Nbx4-mfZWpv5UJ-TS47KQP90rIt6lEP5MMOnRIeDVOA&oe=623BAB80",
+  //     name: "Hip-hop & Rap",
+  //     rank: "Top 50",
+  //   },
+  //   {
+  //     imageUrl:
+  //       "https://scontent-ssn1-1.xx.fbcdn.net/v/t31.18172-8/11133935_1609356205963402_6754719463200097210_o.jpg?_nc_cat=103&ccb=1-5&_nc_sid=e3f864&_nc_ohc=9k86Hr8bbS0AX9ZA1WJ&_nc_ht=scontent-ssn1-1.xx&oh=00_AT-Nbx4-mfZWpv5UJ-TS47KQP90rIt6lEP5MMOnRIeDVOA&oe=623BAB80",
+  //     name: "Hip-hop & Rap",
+  //     rank: "Top 50",
+  //   },
+  // ]);
 
   const [artistList, setArtistList] = useState([
     {
@@ -317,7 +313,7 @@ const MainPage = () => {
   ]);
   const settingsNoModules = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -344,7 +340,7 @@ const MainPage = () => {
                     <Grid>
                       <div>
                         <div className="flex-container">
-                          {Charts.map((stream, idx) => {
+                          {Charts?.allMusicList?.map((stream, idx) => {
                             return (
                               <div className="flex_box" key={idx}>
                                 <div className="box_hover">
@@ -392,7 +388,7 @@ const MainPage = () => {
                     <Grid>
                       <div>
                         <div className="flex-container">
-                          {Charts.map((stream, idx) => {
+                          {Charts?.topMusicList?.map((stream, idx) => {
                             return (
                               <div className="flex_box" key={idx}>
                                 <div className="box_hover">
@@ -439,7 +435,7 @@ const MainPage = () => {
                     <Grid>
                       <div>
                         <div className="flex-container">
-                          {Charts.map((stream, idx) => {
+                          {Charts?.hiphopCategoryMusict.map((stream, idx) => {
                             return (
                               <div className="flex_box" key={idx}>
                                 <div className="box_hover">
@@ -486,7 +482,7 @@ const MainPage = () => {
                     <Grid>
                       <div>
                         <div className="flex-container">
-                          {Charts.map((stream, idx) => {
+                          {Charts?.rockCategoryMusit.map((stream, idx) => {
                             return (
                               <div className="flex_box" key={idx}>
                                 <div className="box_hover">
@@ -533,7 +529,7 @@ const MainPage = () => {
                     <Grid>
                       <div>
                         <div className="flex-container">
-                          {Charts.map((stream, idx) => {
+                          {Charts?.hiphopCategoryMusit.map((stream, idx) => {
                             return (
                               <div className="flex_box" key={idx}>
                                 <div className="box_hover">
@@ -580,7 +576,7 @@ const MainPage = () => {
                     <Grid>
                       <div>
                         <div className="flex-container">
-                          {Charts.map((stream, idx) => {
+                          {Charts?.rockCategoryMusit.map((stream, idx) => {
                             return (
                               <div className="flex_box" key={idx}>
                                 <div className="box_hover">
@@ -766,7 +762,7 @@ const MainPage = () => {
                   </Grid>
                   <img
                     src="https://www.sarahwerner.com/wp-content/uploads/2013/11/get-it-on-google-play.png"
-                    size="10%"
+                    size="15px"
                   />
                 </Grid>
               </div>
@@ -779,24 +775,3 @@ const MainPage = () => {
 };
 
 export default MainPage;
-{
-  /* <Slider {...settings}>
-        <div>
-          <div>
-            <h3>2</h3>
-          </div>
-          <div>
-            <h3>3</h3>
-          </div>
-          <div>
-            <h3>4</h3>
-          </div>
-          <div>
-            <h3>5</h3>
-          </div>
-          <div>
-            <h3>6</h3>
-          </div>
-        </div>
-      </Slider> */
-}
