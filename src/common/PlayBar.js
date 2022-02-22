@@ -67,10 +67,11 @@ const PlayBarBlock = styled.div`
   }
   .progressBar {
     flex-grow: 1;
+    padding: 0.5em 0;
     .progress {
       background: #f50;
       height: 1px;
-      width: 160px; //지우기
+      /* width: 50%; //지우기 */
     }
     .backProgress {
       background: #ccc;
@@ -93,6 +94,9 @@ const PlayBarBlock = styled.div`
       margin-right: 1em;
     }
   }
+  input[type="range"] {
+    width: 100%;
+  }
 `;
 
 const PlayBar = () => {
@@ -112,6 +116,8 @@ const PlayBar = () => {
   var endTime_sec = now_endTime % 60;
   let new_endTime = `${endTime_min}:${endTime_sec}`;
 
+  const progressRatio = (now_playtime / now_endTime) * 100;
+
   const pauseMusic = () => {
     audioPlayer.pause();
     setPlaying(false);
@@ -130,6 +136,31 @@ const PlayBar = () => {
     audioPlayer.skipBackward(5);
   };
 
+  const progressControl = (e) => {
+    // const offsetx = e.nativeEvent.offsetX;
+    // console.log(offsetx);
+    const x = e.clientX - e.target.getBoundingClientRect().left;
+    const x_ratio = Math.floor(
+      (x / e.target.getBoundingClientRect().width) * 100
+    );
+    audioPlayer.seekTo(x_ratio / 100);
+
+    const mouseMove = (e) => {
+      const x = e.clientX - e.target.getBoundingClientRect().left;
+      const x_ratio = Math.floor(
+        (x / e.target.getBoundingClientRect().width) * 100
+      );
+      audioPlayer.seekTo(x_ratio / 100);
+    };
+    const mouseUp = () => {
+      e.target.removeEventListener("mousemove", mouseMove);
+      e.target.removeEventListener("mouseup", mouseUp);
+    };
+
+    e.target.addEventListener("mousemove", mouseMove);
+    e.target.addEventListener("mouseup", mouseUp);
+  };
+
   useEffect(() => {});
   return (
     <PlayBarBlock>
@@ -145,15 +176,25 @@ const PlayBar = () => {
           <FontAwesomeIcon icon={faShuffle} />
           <FontAwesomeIcon icon={faRotate} />
         </div>
+
         <div className="progressBar_container">
           <span className="start_time">{new_playTime}</span>
-          <div className="progressBar">
-            <div className="progress"></div>
+          <div className="progressBar" onMouseDown={progressControl}>
+            <div
+              className="progress"
+              style={{ width: `${progressRatio}%` }}
+            ></div>
             <div className="backProgress"></div>
           </div>
+          {/* <input type="range" min="0" max="100" value={progressRatio} /> */}
           <span className="end_time">{new_endTime}</span>
-          <FontAwesomeIcon icon={faVolumeHigh} className="sound_icon" />
+          <FontAwesomeIcon
+            icon={faVolumeHigh}
+            className="sound_icon"
+            onClick={() => audioPlayer.toggleMute()}
+          />
         </div>
+
         <div className="track_info">
           <div className="image_cover">
             <Image size="32px" shape="rectangle" src={now_playing?.imageUrl} />
