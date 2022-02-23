@@ -71,7 +71,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/detail" element={<DetailPage />} />
+        <Route path="/detail:musicId" element={<DetailPage />} />
         <Route path="/stream" element={<StreamPage />} />
         {/* <Route path="/stream" element={<Slick />} /> */}
       </Routes>
