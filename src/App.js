@@ -2,7 +2,8 @@ import { Route, Routes } from 'react-router-dom';
 import DetailPage from './pages/DetailPage';
 import MainPage from './pages/MainPage';
 import StreamPage from './pages/StreamPage';
-// import Slick from "./common/slick";
+import Upload from './pages/Upload';
+
 import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import Header from './common/Header';
@@ -75,6 +76,7 @@ function App() {
                     <Route path="/detail:musicId" element={<DetailPage />} />
                 </Route>
                 <Route path="/stream" element={<StreamPage />} />
+                <Route path="/upload" element={<Upload />} />
             </Routes>
             {now_playing && <PlayBar />}
         </HistoryRouter>

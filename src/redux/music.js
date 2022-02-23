@@ -33,8 +33,6 @@ const getOneMusicAPI = (musicId = 1) => {
 const createCommentAPI = (commentObj, musicId = 1) => {
     return async dispatch => {
         try {
-            console.log(commentObj);
-
             const response = await apis.post(
                 `/music/${musicId}/comment`,
                 commentObj
