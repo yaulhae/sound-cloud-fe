@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef, Component } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import WaveSurfer from 'wavesurfer.js';
 
@@ -8,8 +9,13 @@ import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
 import '../waveForm.css';
 
 import formatTime from '../common/formatTime';
+import { actionsCreators as musicActions } from '../redux/music';
 
 const WaveForm = props => {
+    const dispatch = useDispatch();
+
+    const music = useSelector(({ music }) => music?.music?.music);
+
     const player = useRef(null);
 
     const [isPlaying, setIsPlaying] = useState(false);
@@ -24,7 +30,7 @@ const WaveForm = props => {
             barGap: 2,
             barMinHeight: 1,
             cursorWidth: 1,
-            // backend: 'MediaElementWebAudio',
+            // backend: 'MediaElementWebAudio',  이 녀석 때문에 에러났음
             backend: 'WebAudio',
             height: 180,
             progressColor: '#FE6E00',
@@ -33,29 +39,31 @@ const WaveForm = props => {
             cursorColor: 'transparent',
         });
 
+        player.current.load(music?.musicUrl || 'url');
+
         player.current?.on('ready', () => {
             setDuration(formatTime(player.current?.getDuration()));
         });
 
         player.current?.on('audioprocess', function () {
             setCurTime(formatTime(player.current.getCurrentTime()));
+            const time = player.current.getCurrentTime();
+            dispatch(musicActions.getCommentTime(time));
         });
-
-        player.current.load(props.url || 'url');
     }, []);
 
     const handlePlay = () => {
         setIsPlaying(!isPlaying);
         if (!isPlaying) {
             console.log('play');
-            player.current?.play();
+            player.current.play();
         } else {
             console.log('pause');
-            player.current?.pause();
+            player.current.pause();
         }
     };
 
-    console.log(player, isPlaying, duration, curTime);
+    // console.log(music);
 
     return (
         <WaveformContianer>
