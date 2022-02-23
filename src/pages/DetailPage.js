@@ -26,10 +26,9 @@ import { actionsCreators as musicActions } from '../redux/music';
 const DetailPage = () => {
     const dispatch = useDispatch();
 
-    const [isLoaded, setIsLoaded] = React.useState(false);
-
     const music = useSelector(({ music }) => music?.music?.music);
     const commentList = useSelector(({ music }) => music?.music?.commentList);
+    const commentTime = useSelector(({ music }) => music?.music?.commentTime);
 
     const { data } = usePalette(music?.imageUrl);
 
@@ -40,7 +39,21 @@ const DetailPage = () => {
 
     const enterKey = () => {
         if (window.event.keyCode === 13) {
-            console.log('엔터');
+            const commentContent = commentInput.current.value;
+            if (!commentContent) return;
+            const ctTime = commentTime ? parseInt(commentTime) : 0;
+
+            console.log(ctTime);
+
+            const commentObj = {
+                userId: '6',
+                commentContent,
+                commentTime: ctTime,
+            };
+
+            dispatch(musicActions.createCommentAPI(commentObj, 1));
+            commentInput.current.value = '';
+            return;
         }
     };
 
@@ -51,7 +64,7 @@ const DetailPage = () => {
     // }, []);
     // 뭐야 얘 없어도 되잖아..
 
-    console.log(music);
+    // console.log(music);
     // console.log(commentList);
     // store의 값을 확인하고 싶으면 useEffect 밖에서.....
 
@@ -139,6 +152,12 @@ const DetailPage = () => {
                                 </CommentCountContainer>
                                 <CommentList>
                                     {commentList?.map((comment, idx) => {
+                                        const fromNow = moment(
+                                            comment?.createdAt
+                                                .split(' ')[0]
+                                                .replaceAll('-', ''),
+                                            'YYYYMMDD'
+                                        ).fromNow();
                                         return (
                                             <CommentContainer key={idx}>
                                                 <UserImage
@@ -167,15 +186,9 @@ const DetailPage = () => {
                                                     </Comment>
                                                 </ContentWrapper>
                                                 <CommentCreated>
-                                                    {moment(
-                                                        comment?.createdAt
-                                                            .split(' ')[0]
-                                                            .replaceAll(
-                                                                '-',
-                                                                ''
-                                                            ),
-                                                        'YYYYMMDD'
-                                                    ).fromNow()}
+                                                    {fromNow === '16 hours ago'
+                                                        ? 'Today'
+                                                        : fromNow}
                                                 </CommentCreated>
                                             </CommentContainer>
                                         );

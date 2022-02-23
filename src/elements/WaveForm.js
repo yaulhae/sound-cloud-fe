@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import WaveSurfer from 'wavesurfer.js';
 
@@ -9,8 +9,11 @@ import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
 import '../waveForm.css';
 
 import formatTime from '../common/formatTime';
+import { actionsCreators as musicActions } from '../redux/music';
 
 const WaveForm = props => {
+    const dispatch = useDispatch();
+
     const music = useSelector(({ music }) => music?.music?.music);
 
     const player = useRef(null);
@@ -44,6 +47,8 @@ const WaveForm = props => {
 
         player.current?.on('audioprocess', function () {
             setCurTime(formatTime(player.current.getCurrentTime()));
+            const time = player.current.getCurrentTime();
+            dispatch(musicActions.getCommentTime(time));
         });
     }, []);
 
@@ -58,7 +63,7 @@ const WaveForm = props => {
         }
     };
 
-    console.log(music);
+    // console.log(music);
 
     return (
         <WaveformContianer>
