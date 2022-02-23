@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import { usePalette } from 'react-palette';
 
@@ -24,6 +24,8 @@ import {
 import { actionsCreators as musicActions } from '../redux/music';
 
 const DetailPage = () => {
+    const { musicId } = useParams();
+
     const dispatch = useDispatch();
 
     const music = useSelector(({ music }) => music?.music?.music);
@@ -43,19 +45,22 @@ const DetailPage = () => {
             if (!commentContent) return;
             const ctTime = commentTime ? parseInt(commentTime) : 0;
 
-            console.log(ctTime);
-
             const commentObj = {
                 userId: '6',
                 commentContent,
                 commentTime: ctTime,
             };
 
-            dispatch(musicActions.createCommentAPI(commentObj, 1));
+            dispatch(musicActions.createCommentAPI(commentObj, musicId));
             commentInput.current.value = '';
             return;
         }
     };
+
+    React.useEffect(() => {
+        dispatch(musicActions.getOneMusicAPI(musicId));
+        console.log(musicId);
+    }, []);
 
     // React.useEffect(() => {
     //     if (music) return;
@@ -70,7 +75,7 @@ const DetailPage = () => {
 
     // 새로고침 드디어 해결!!!!!!!!!!!!!!!
     if (!music) {
-        dispatch(musicActions.getOneMusicAPI(1));
+        dispatch(musicActions.getOneMusicAPI(musicId));
         return <></>;
     } else
         return (
@@ -97,7 +102,7 @@ const DetailPage = () => {
                                     ).fromNow()}
                                 </Created>
                             </PlayButtonWrapper>
-                            <WaveForm />
+                            <WaveForm musicId={musicId} />
                         </LeftWrapper>
                         <MusicCover
                             style={{
@@ -175,8 +180,9 @@ const DetailPage = () => {
                                                                     '0.9em',
                                                             }}
                                                         >
-                                                            at
-                                                        </span>{' '}
+                                                            {' '}
+                                                            at{' '}
+                                                        </span>
                                                         {formatTime(
                                                             comment.commentTime
                                                         )}
@@ -186,7 +192,7 @@ const DetailPage = () => {
                                                     </Comment>
                                                 </ContentWrapper>
                                                 <CommentCreated>
-                                                    {fromNow === '16 hours ago'
+                                                    {fromNow.includes('hours')
                                                         ? 'Today'
                                                         : fromNow}
                                                 </CommentCreated>

@@ -57,6 +57,7 @@ const WaveForm = props => {
         if (!isPlaying) {
             console.log('play');
             player.current.play();
+            dispatch(musicActions.musicHistoryAPI(props.musicId));
         } else {
             console.log('pause');
             player.current.pause();

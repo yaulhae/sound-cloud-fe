@@ -50,6 +50,19 @@ const createCommentAPI = (commentObj, musicId = 1) => {
     };
 };
 
+const musicHistoryAPI = (musicId, userId = 6) => {
+    return async dispatch => {
+        try {
+            console.log(userId);
+            apis.post(`/music/${musicId}`, {
+                userId,
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    };
+};
+
 const initialState = {
     music: null,
 };
@@ -78,5 +91,6 @@ export default handleActions(
 export const actionsCreators = {
     getOneMusicAPI,
     createCommentAPI,
+    musicHistoryAPI,
     getCommentTime,
 };
