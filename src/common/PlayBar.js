@@ -16,12 +16,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Image, Text } from "../elements";
 import { useSelector } from "react-redux";
-import track, {
-  getAudioPlayer,
-  getPlayingInfo,
-  isPlaying,
-} from "../redux/track";
-import { useEffect } from "react";
+import { getAudioPlayer, getPlayingInfo } from "../redux/track";
 import { useDispatch } from "react-redux";
 
 const PlayBarBlock = styled.div`
@@ -77,7 +72,6 @@ const PlayBarBlock = styled.div`
       position: relative;
       background: #f50;
       height: 1px;
-      /* width: 50%; //지우기 */
     }
     .backProgress {
       background: #ccc;
@@ -113,7 +107,6 @@ const PlayBar = () => {
   const audioPlayer = useSelector(({ track }) => track.audio_player);
   const playingInfo = useSelector(({ track }) => track.playing_info);
   const [muteStatus, setMuteStatus] = useState(false);
-  // const [playIcon, setPlayIcon] = useState(false);
 
   const now_endTime = useSelector(({ track }) => track.now_endTime);
 
@@ -152,8 +145,6 @@ const PlayBar = () => {
   };
 
   const progressControl = (e) => {
-    // const offsetx = e.nativeEvent.offsetX;
-    // console.log(offsetx);
     const x = e.clientX - e.target.getBoundingClientRect().left;
     const x_ratio = Math.floor(
       (x / e.target.getBoundingClientRect().width) * 100
@@ -175,13 +166,6 @@ const PlayBar = () => {
     e.target.addEventListener("mousemove", mouseMove);
     e.target.addEventListener("mouseup", mouseUp);
   };
-  // useEffect(() => {
-  //   if (audioPlayer.isPlaying()) {
-  //     setPlayIcon(true);
-  //   } else {
-  //     setPlayIcon(false);
-  //   }
-  // }, [audioPlayer]);
 
   return (
     <PlayBarBlock>
@@ -208,7 +192,6 @@ const PlayBar = () => {
 
             <div className="backProgress"></div>
           </div>
-          {/* <input type="range" min="0" max="100" value={progressRatio} /> */}
           <span className="end_time">{new_endTime}</span>
           {muteStatus ? (
             <FontAwesomeIcon

@@ -23,7 +23,7 @@ import {
 
 import { actionsCreators as musicActions } from "../redux/music";
 
-import { getPlayTime } from "../redux/track";
+import { getPlayTime, getTimer } from "../redux/track";
 
 const DetailPage = () => {
   const { musicId } = useParams();
@@ -69,11 +69,13 @@ const DetailPage = () => {
       timerRef.current = setInterval(() => {
         dispatch(getPlayTime(Math.floor(audio_player?.getCurrentTime())));
       }, 1000);
+      dispatch(getTimer(timerRef.current));
     }
+
     return () => {
       clearInterval(timerRef.current);
     };
-  }, [music]);
+  }, []);
 
   // React.useEffect(() => {
   //     if (music) return;
