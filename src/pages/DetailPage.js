@@ -22,105 +22,103 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import { actionsCreators as musicActions } from '../redux/music';
-
-import { getPlayTime } from '../redux/track';
+import { getPlayTime, getTimer } from "../redux/track";
 
 const DetailPage = () => {
-    const { musicId } = useParams();
+  const { musicId } = useParams();
 
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    const timerRef = useRef(null);
+  const timerRef = useRef(null);
 
-    const audio_player = useSelector(({ track }) => track.audio_player);
-    const music = useSelector(({ music }) => music?.music?.music);
-    const commentList = useSelector(({ music }) => music?.music?.commentList);
-    const commentTime = useSelector(({ music }) => music?.music?.commentTime);
+  const audio_player = useSelector(({ track }) => track.audio_player);
+  const music = useSelector(({ music }) => music?.music?.music);
+  const commentList = useSelector(({ music }) => music?.music?.commentList);
+  const commentTime = useSelector(({ music }) => music?.music?.commentTime);
 
-    const { data } = usePalette(music?.imageUrl);
+  const { data } = usePalette(music?.imageUrl);
 
-    const darkMuted = data.darkMuted;
-    const vibrant = data.vibrant;
+  const darkMuted = data.darkMuted;
+  const vibrant = data.vibrant;
 
-    const commentInput = React.useRef();
+  const commentInput = React.useRef();
 
-    const enterKey = () => {
-        if (window.event.keyCode === 13) {
-            const commentContent = commentInput.current.value;
-            if (!commentContent) return;
-            const ctTime = commentTime ? parseInt(commentTime) : 0;
+  const enterKey = () => {
+    if (window.event.keyCode === 13) {
+      const commentContent = commentInput.current.value;
+      if (!commentContent) return;
+      const ctTime = commentTime ? parseInt(commentTime) : 0;
 
-            const commentObj = {
-                userId: '6',
-                commentContent,
-                commentTime: ctTime,
-            };
+      const commentObj = {
+        userId: "6",
+        commentContent,
+        commentTime: ctTime,
+      };
 
-            dispatch(musicActions.createCommentAPI(commentObj, musicId));
-            commentInput.current.value = '';
-            return;
-        }
+      dispatch(musicActions.createCommentAPI(commentObj, musicId));
+      commentInput.current.value = "";
+      return;
+    }
+  };
+
+  React.useEffect(() => {
+    dispatch(musicActions.getOneMusicAPI(musicId));
+    console.log(musicId);
+    if (audio_player) {
+      timerRef.current = setInterval(() => {
+        dispatch(getPlayTime(Math.floor(audio_player?.getCurrentTime())));
+      }, 1000);
+      dispatch(getTimer(timerRef.current));
+    }
+
+    return () => {
+      clearInterval(timerRef.current);
     };
+  }, []);
 
-    React.useEffect(() => {
-        dispatch(musicActions.getOneMusicAPI(musicId));
+  // React.useEffect(() => {
+  //     if (music) return;
+  //     console.log('재렌더링');
+  //     dispatch(musicActions.getOneMusicAPI(1));
+  // }, []);
+  // 뭐야 얘 없어도 되잖아..
 
-        if (audio_player) {
-            timerRef.current = setInterval(() => {
-                dispatch(
-                    getPlayTime(Math.floor(audio_player?.getCurrentTime()))
-                );
-            }, 1000);
-        }
-        return () => {
-            clearInterval(timerRef.current);
-        };
-    }, [music]);
+  // console.log(music);
+  // console.log(commentList);
+  // store의 값을 확인하고 싶으면 useEffect 밖에서.....
 
-    // React.useEffect(() => {
-    //     if (music) return;
-    //     console.log('재렌더링');
-    //     dispatch(musicActions.getOneMusicAPI(1));
-    // }, []);
-    // 뭐야 얘 없어도 되잖아..
-
-    // console.log(music);
-    // console.log(commentList);
-    // store의 값을 확인하고 싶으면 useEffect 밖에서.....
-
-    // 새로고침 드디어 해결!!!!!!!!!!!!!!!
-    if (!music) {
-        dispatch(musicActions.getOneMusicAPI(musicId));
-        return <></>;
-    } else
-        return (
-            <TemplateRyu>
-                <PlayerWrapper
-                    style={{
-                        background: `linear-gradient(100deg, ${darkMuted}, ${vibrant})`,
-                    }}
-                >
-                    <LeftWrapper>
-                        <PlayButtonWrapper>
-                            <PlayButton></PlayButton>
-                            <TitleArtistWrapper>
-                                <Title>{music?.musicTitle}</Title>
-                                <Artist>{music?.artistName}</Artist>
-                            </TitleArtistWrapper>
-                            <Created>
-                                {moment(
-                                    music?.createdAt
-                                        .split(' ')[0]
-                                        .replaceAll('-', ''),
-                                    'YYYYMMDD'
-                                ).fromNow()}
-                            </Created>
-                        </PlayButtonWrapper>
-                        <WaveForm musicId={musicId} />
-                    </LeftWrapper>
-                    <MusicCover
-                        style={{
-                            backgroundImage: `url(${music?.imageUrl})
+  // 새로고침 드디어 해결!!!!!!!!!!!!!!!
+  if (!music) {
+    dispatch(musicActions.getOneMusicAPI(musicId));
+    return <></>;
+  } else
+    return (
+      <TemplateRyu>
+        <DetailPageBlock>
+          <PlayerWrapper
+            style={{
+              background: `linear-gradient(100deg, ${darkMuted}, ${vibrant})`,
+            }}
+          >
+            <LeftWrapper>
+              <PlayButtonWrapper>
+                <PlayButton></PlayButton>
+                <TitleArtistWrapper>
+                  <Title>{music?.musicTitle}</Title>
+                  <Artist>{music?.artistName}</Artist>
+                </TitleArtistWrapper>
+                <Created>
+                  {moment(
+                    music?.createdAt.split(" ")[0].replaceAll("-", ""),
+                    "YYYYMMDD"
+                  ).fromNow()}
+                </Created>
+              </PlayButtonWrapper>
+              <WaveForm musicId={musicId} />
+            </LeftWrapper>
+            <MusicCover
+              style={{
+                backgroundImage: `url(${music?.imageUrl})
 `,
                         }}
                     />
