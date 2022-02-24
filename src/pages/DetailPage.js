@@ -1,9 +1,11 @@
+
 import styled from 'styled-components';
 import React, { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import { usePalette } from 'react-palette';
+
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { WaveForm } from "../elements/index";
@@ -22,6 +24,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { actionsCreators as musicActions } from "../redux/music";
+
 import { getPlayTime } from "../redux/track";
 
 const DetailPage = () => {
@@ -275,6 +278,7 @@ const DetailPage = () => {
                 </DetailPageBlock>
             </TemplateRyu>
         );
+
 };
 
 const DetailPageBlock = styled.div`

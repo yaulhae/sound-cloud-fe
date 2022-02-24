@@ -23,7 +23,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Howl } from "howler";
 import { makeStyles } from "@material-ui/core/styles";
-import Controls from "../common/Controls";
+
 // import music from "./y2mate.com-IFeelItComing.mp3";
 import { colors } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
@@ -102,7 +102,7 @@ const MainPageBlock = styled.div`
   .Inimage {
     text-align: center;
     position: absolute;
-    top: 23%;
+    top: 27%;
     transform: translate(120%);
     color: #f50;
     opacity: 0;
@@ -190,6 +190,26 @@ const MainPageBlock = styled.div`
   }
   .google {
     background-image: url("https://www.iconspng.com/images/google-play-badge.jpg");
+  }
+  .slick-dots li.slick-active button:before {
+    opacity: 0;
+  }
+  .slick-dots li button:before {
+    opacity: 0;
+  }
+  .slick-prev:before,
+  .slick-next:before {
+    color: #e2e2e2;
+    position: absolute;
+    bottom: 35px;
+    z-index: 1000;
+    right: -9px;
+    font-size: 36px;
+  }
+  .slick-prev,
+  .slick-next {
+    z-index: 1;
+    font-size: 40px;
   }
 `;
 
@@ -318,13 +338,12 @@ const MainPage = (props) => {
       playCnt: 23,
     },
   ]);
-  const settingsNoModules = {
+  const settings = {
     dots: true,
-    infinite: false,
+    infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    dotsClass: "button__bar",
     arrows: true,
   };
   return (
@@ -341,7 +360,7 @@ const MainPage = (props) => {
             </div>
 
             <div>
-              <Slider {...settingsNoModules}>
+              <Slider {...settings}>
                 <div>
                   <p>
                     <Grid>
@@ -356,15 +375,14 @@ const MainPage = (props) => {
                                 }}
                                 key={idx}
                               >
-                                <Link to={`/detail/${stream.musicId}`}>
-                                  링크
-                                </Link>
                                 <div className="box_hover">
-                                  <Image
-                                    shape="rectangle"
-                                    size="160px"
-                                    src={stream.imageUrl}
-                                  />
+                                  <Link to={`/detail/${stream.musicId}`}>
+                                    <Image
+                                      shape="rectangle"
+                                      size="160px"
+                                      src={stream.imageUrl}
+                                    />
+                                  </Link>
                                   <div className="Inimage">
                                     <FontAwesomeIcon
                                       icon={faPlayCircle}
@@ -373,6 +391,7 @@ const MainPage = (props) => {
                                     />
                                   </div>
                                 </div>
+
                                 <p className="artist_name">{stream.name}</p>
                                 <p className="artist_title">{stream.rank}</p>
                               </div>
@@ -391,14 +410,12 @@ const MainPage = (props) => {
             {/* //// */}
             <div className="flex_box">
               <Text size="2rem" margin="0 0 1em 0">
-                <p>Charts: Top 50</p>
-                <p className="font">
-                  The most played tracks on SoundCloud this week
-                </p>
+                <p>Charts New & hot</p>
+                <p className="font">Up-and-coming tracks on SoundCloud</p>
               </Text>
             </div>
             <div>
-              <Slider {...settingsNoModules}>
+              <Slider {...settings}>
                 <div>
                   <p>
                     <Grid>
@@ -408,11 +425,13 @@ const MainPage = (props) => {
                             return (
                               <div className="flex_box" key={idx}>
                                 <div className="box_hover">
-                                  <Image
-                                    shape="rectangle"
-                                    size="160px"
-                                    src={stream.imageUrl}
-                                  />
+                                  <Link to={`/detail/${stream.musicId}`}>
+                                    <Image
+                                      shape="rectangle"
+                                      size="160px"
+                                      src={stream.imageUrl}
+                                    />
+                                  </Link>
                                   <div className="Inimage">
                                     <FontAwesomeIcon
                                       icon={faPlayCircle}
@@ -438,28 +457,31 @@ const MainPage = (props) => {
 
             <div className="flex_box">
               <Text size="2rem" margin="0 0 1em 0">
-                <p>Charts: Top 50</p>
+                <p>Sleep</p>
                 <p className="font">
-                  The most played tracks on SoundCloud this week
+                  {" "}
+                  Popular playlists from the SoundCloud community
                 </p>
               </Text>
             </div>
             <div>
-              <Slider {...settingsNoModules}>
+              <Slider {...settings}>
                 <div>
                   <p>
                     <Grid>
                       <div>
                         <div className="flex-container">
-                          {Charts?.hiphopCategoryMusict?.map((stream, idx) => {
+                          {Charts?.topMusicList?.map((stream, idx) => {
                             return (
                               <div className="flex_box" key={idx}>
                                 <div className="box_hover">
-                                  <Image
-                                    shape="rectangle"
-                                    size="160px"
-                                    src={stream.imageUrl}
-                                  />
+                                  <Link to={`/detail/${stream.musicId}`}>
+                                    <Image
+                                      shape="rectangle"
+                                      size="160px"
+                                      src={stream.imageUrl}
+                                    />
+                                  </Link>
                                   <div className="Inimage">
                                     <FontAwesomeIcon
                                       icon={faPlayCircle}
@@ -485,28 +507,31 @@ const MainPage = (props) => {
 
             <div className="flex_box">
               <Text size="2rem" margin="0 0 1em 0">
-                <p>Charts: Top 50</p>
+                <p>Charts:Top 50</p>
                 <p className="font">
+                  {" "}
                   The most played tracks on SoundCloud this week
                 </p>
               </Text>
             </div>
             <div>
-              <Slider {...settingsNoModules}>
+              <Slider {...settings}>
                 <div>
                   <p>
                     <Grid>
                       <div>
                         <div className="flex-container">
-                          {Charts?.rockCategoryMusit?.map((stream, idx) => {
+                          {Charts?.topMusicList?.map((stream, idx) => {
                             return (
                               <div className="flex_box" key={idx}>
                                 <div className="box_hover">
-                                  <Image
-                                    shape="rectangle"
-                                    size="160px"
-                                    src={stream.imageUrl}
-                                  />
+                                  <Link to={`/detail/${stream.musicId}`}>
+                                    <Image
+                                      shape="rectangle"
+                                      size="160px"
+                                      src={stream.imageUrl}
+                                    />
+                                  </Link>
                                   <div className="Inimage">
                                     <FontAwesomeIcon
                                       icon={faPlayCircle}
@@ -532,28 +557,31 @@ const MainPage = (props) => {
 
             <div className="flex_box">
               <Text size="2rem" margin="0 0 1em 0">
-                <p>Charts: Top 50</p>
+                <p>Workout</p>
                 <p className="font">
-                  The most played tracks on SoundCloud this week
+                  {" "}
+                  Popular playlists from the SoundCloud community
                 </p>
               </Text>
             </div>
             <div>
-              <Slider {...settingsNoModules}>
+              <Slider {...settings}>
                 <div>
                   <p>
                     <Grid>
                       <div>
                         <div className="flex-container">
-                          {Charts?.hiphopCategoryMusit?.map((stream, idx) => {
+                          {Charts?.topMusicList?.map((stream, idx) => {
                             return (
                               <div className="flex_box" key={idx}>
                                 <div className="box_hover">
-                                  <Image
-                                    shape="rectangle"
-                                    size="160px"
-                                    src={stream.imageUrl}
-                                  />
+                                  <Link to={`/detail/${stream.musicId}`}>
+                                    <Image
+                                      shape="rectangle"
+                                      size="160px"
+                                      src={stream.imageUrl}
+                                    />
+                                  </Link>
                                   <div className="Inimage">
                                     <FontAwesomeIcon
                                       icon={faPlayCircle}
@@ -579,28 +607,177 @@ const MainPage = (props) => {
 
             <div className="flex_box">
               <Text size="2rem" margin="0 0 1em 0">
-                <p>Charts: Top 50</p>
+                <p>Party</p>
                 <p className="font">
-                  The most played tracks on SoundCloud this week
+                  Popular playlists from the SoundCloud community
                 </p>
               </Text>
             </div>
             <div>
-              <Slider {...settingsNoModules}>
+              <Slider {...settings}>
                 <div>
                   <p>
                     <Grid>
                       <div>
                         <div className="flex-container">
-                          {Charts?.rockCategoryMusit?.map((stream, idx) => {
+                          {Charts?.hiphopCategoryMusic?.map((stream, idx) => {
                             return (
                               <div className="flex_box" key={idx}>
                                 <div className="box_hover">
-                                  <Image
-                                    shape="rectangle"
-                                    size="160px"
-                                    src={stream.imageUrl}
-                                  />
+                                  <Link to={`/detail/${stream.musicId}`}>
+                                    <Image
+                                      shape="rectangle"
+                                      size="160px"
+                                      src={stream.imageUrl}
+                                    />
+                                  </Link>
+                                  <div className="Inimage">
+                                    <FontAwesomeIcon
+                                      icon={faPlayCircle}
+                                      size="3x"
+                                      onClick={() => {}}
+                                    />
+                                  </div>
+                                </div>
+                                <p className="artist_name">{stream.name}</p>
+                                <p className="artist_title">{stream.rank}</p>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <div className="layout_bottom "></div>
+                      </div>
+                    </Grid>
+                  </p>
+                </div>
+                <div></div>
+              </Slider>
+            </div>
+
+            <div className="flex_box">
+              <Text size="2rem" margin="0 0 1em 0">
+                <p>Relax</p>
+                <p className="font">
+                  Popular playlists from the SoundCloud community
+                </p>
+              </Text>
+            </div>
+            <div>
+              <Slider {...settings}>
+                <div>
+                  <p>
+                    <Grid>
+                      <div>
+                        <div className="flex-container">
+                          {Charts?.rockCategoryMusic?.map((stream, idx) => {
+                            return (
+                              <div className="flex_box" key={idx}>
+                                <div className="box_hover">
+                                  <Link to={`/detail/${stream.musicId}`}>
+                                    <Image
+                                      shape="rectangle"
+                                      size="160px"
+                                      src={stream.imageUrl}
+                                    />
+                                  </Link>
+                                  <div className="Inimage">
+                                    <FontAwesomeIcon
+                                      icon={faPlayCircle}
+                                      size="3x"
+                                      onClick={() => {}}
+                                    />
+                                  </div>
+                                </div>
+                                <p className="artist_name">{stream.name}</p>
+                                <p className="artist_title">{stream.rank}</p>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <div className="layout_bottom "></div>
+                      </div>
+                    </Grid>
+                  </p>
+                </div>
+                <div></div>
+              </Slider>
+            </div>
+
+            <div className="flex_box">
+              <Text size="2rem" margin="0 0 1em 0">
+                <p>Study</p>
+                <p className="font">
+                  Popular playlists from the SoundCloud community
+                </p>
+              </Text>
+            </div>
+            <div>
+              <Slider {...settings}>
+                <div>
+                  <p>
+                    <Grid>
+                      <div>
+                        <div className="flex-container">
+                          {Charts?.hiphopCategoryMusic?.map((stream, idx) => {
+                            return (
+                              <div className="flex_box" key={idx}>
+                                <div className="box_hover">
+                                  <Link to={`/detail/${stream.musicId}`}>
+                                    <Image
+                                      shape="rectangle"
+                                      size="160px"
+                                      src={stream.imageUrl}
+                                    />
+                                  </Link>
+                                  <div className="Inimage">
+                                    <FontAwesomeIcon
+                                      icon={faPlayCircle}
+                                      size="3x"
+                                      onClick={() => {}}
+                                    />
+                                  </div>
+                                </div>
+                                <p className="artist_name">{stream.name}</p>
+                                <p className="artist_title">{stream.rank}</p>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <div className="layout_bottom "></div>
+                      </div>
+                    </Grid>
+                  </p>
+                </div>
+                <div></div>
+              </Slider>
+            </div>
+
+            <div className="flex_box">
+              <Text size="2rem" margin="0 0 1em 0">
+                <p>Chill</p>
+                <p className="font">
+                  Popular playlists from the SoundCloud community
+                </p>
+              </Text>
+            </div>
+            <div>
+              <Slider {...settings}>
+                <div>
+                  <p>
+                    <Grid>
+                      <div>
+                        <div className="flex-container">
+                          {Charts?.rockCategoryMusic?.map((stream, idx) => {
+                            return (
+                              <div className="flex_box" key={idx}>
+                                <div className="box_hover">
+                                  <Link to={`/detail/${stream.musicId}`}>
+                                    <Image
+                                      shape="rectangle"
+                                      size="160px"
+                                      src={stream.imageUrl}
+                                    />
+                                  </Link>
                                   <div className="Inimage">
                                     <FontAwesomeIcon
                                       icon={faPlayCircle}

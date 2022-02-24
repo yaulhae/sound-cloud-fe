@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
@@ -80,6 +81,7 @@ const WaveForm = props => {
             <DurationLabel>{duration}</DurationLabel>
         </WaveformContianer>
     );
+
 
 };
 
