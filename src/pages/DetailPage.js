@@ -36,7 +36,10 @@ const DetailPage = () => {
     const commentList = useSelector(({ music }) => music?.music?.commentList);
     const commentTime = useSelector(({ music }) => music?.music?.commentTime);
 
-    const { data } = usePalette(music?.imageUrl);
+    const { data, loading, error } = usePalette(music?.imageUrl);
+    console.log(music?.imageUrl);
+    console.log(loading);
+    console.log(error);
 
     const darkMuted = data.darkMuted;
     const vibrant = data.vibrant;
@@ -64,6 +67,9 @@ const DetailPage = () => {
     React.useEffect(() => {
         dispatch(musicActions.getOneMusicAPI(musicId));
         console.log(musicId);
+        console.log(music);
+        console.log(data);
+
         if (audio_player) {
             timerRef.current = setInterval(() => {
                 dispatch(
@@ -78,7 +84,7 @@ const DetailPage = () => {
         };
     }, []);
 
-    if (!music) {
+    if (!music || !data) {
         dispatch(musicActions.getOneMusicAPI(musicId));
         return <></>;
     } else
