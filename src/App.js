@@ -1,15 +1,16 @@
-import { Route, Routes } from "react-router-dom";
-import DetailPage from "./pages/DetailPage";
-import MainPage from "./pages/MainPage";
-import StreamPage from "./pages/StreamPage";
-// import Slick from "./common/slick";
-import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
-import { createBrowserHistory } from "history";
-import Header from "./common/Header";
-import Test from "./pages/Test";
-import PlayBar from "./common/PlayBar";
-import { useSelector } from "react-redux";
-import { useState } from "react";
+import { Route, Routes } from 'react-router-dom';
+import DetailPage from './pages/DetailPage';
+import MainPage from './pages/MainPage';
+import StreamPage from './pages/StreamPage';
+import Upload from './pages/Upload';
+
+import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
+import Header from './common/Header';
+import Test from './pages/Test';
+import PlayBar from './common/PlayBar';
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
 export const history = createBrowserHistory();
 
 function App() {
