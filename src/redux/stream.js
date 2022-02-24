@@ -1,36 +1,37 @@
-import produce from "immer";
-import { createAction, handleActions } from "redux-actions";
-import apis from "../api/api";
+import produce from 'immer';
+import { createAction, handleActions } from 'redux-actions';
+import apis from '../api/api';
 
-const GET_STREALIST = "/stream/GET_STREAMLIST";
+const GET_STREALIST = '/stream/GET_STREAMLIST';
 
-export const getStreamList = createAction(GET_STREALIST, (streamList) => ({
-  streamList,
+export const getStreamList = createAction(GET_STREALIST, streamList => ({
+    streamList,
 }));
 
 export const getStreamListFB = () => {
-  return async (dispatch, getState) => {
-    try {
-      const response = await apis.get(`/stream/12`);
-      const streamList = response.data;
-      dispatch(getStreamList(streamList));
-    } catch (e) {
-      console.log(e);
-    }
-  };
+    return async (dispatch, getState) => {
+        try {
+            const response = await apis.get(`/stream/12`);
+            const streamList = response.data;
+            dispatch(getStreamList(streamList));
+        } catch (e) {
+            console.log(e);
+        }
+    };
 };
 
 const initialState = {
-  streamList: null,
+    streamList: null,
 };
+
 const stream = handleActions(
-  {
-    [GET_STREALIST]: (state, action) =>
-      produce(state, (draft) => {
-        draft.streamList = action.payload.streamList;
-      }),
-  },
-  initialState
+    {
+        [GET_STREALIST]: (state, action) =>
+            produce(state, draft => {
+                draft.streamList = action.payload.streamList;
+            }),
+    },
+    initialState
 );
 
 export default stream;

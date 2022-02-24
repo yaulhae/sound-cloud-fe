@@ -6,7 +6,7 @@ import { useState } from "react";
 import "../index.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import { Link } from "react-router-dom";
 import Slider from "react-slick";
 import {
   faCalendar,
@@ -193,7 +193,7 @@ const MainPageBlock = styled.div`
   }
 `;
 
-const MainPage = () => {
+const MainPage = (props) => {
   const dispatch = useDispatch();
   const Charts = useSelector(({ playlist }) => playlist.top5List);
   const timerRef = useRef(null);
@@ -349,7 +349,16 @@ const MainPage = () => {
                         <div className="flex-container">
                           {Charts?.allMusicList?.map((stream, idx) => {
                             return (
-                              <div className="flex_box" key={idx}>
+                              <div
+                                className="flex_box"
+                                onClick={() => {
+                                  console.log(stream.musicId);
+                                }}
+                                key={idx}
+                              >
+                                <Link to={`/detail/${stream.musicId}`}>
+                                  링크
+                                </Link>
                                 <div className="box_hover">
                                   <Image
                                     shape="rectangle"
