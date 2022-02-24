@@ -80,66 +80,66 @@ const WaveForm = props => {
             <DurationLabel>{duration}</DurationLabel>
         </WaveformContianer>
     );
+
 };
 
 WaveForm.defaultProps = {
-    url: null,
+  url: null,
 };
 
 const PlayButton = styled.button`
-    position: absolute;
-    top: 22px;
-    left: 0px;
-    opacity: 1;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding-bottom: 3px;
-    color: white;
+  position: absolute;
+  top: 22px;
+  left: 0px;
+  opacity: 1;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding-bottom: 3px;
+  color: white;
 `;
 
 const WaveformContianer = styled.div`
-    height: 100px;
-    width: 100%;
-    background: transparent;
-    gap: 2rem;
-    margin-bottom: 28px;
+  height: 100px;
+  width: 100%;
+  background: transparent;
+  gap: 2rem;
+  margin-bottom: 28px;
 `;
 
 const Wave = styled.div`
-    width: 100%;
-    height: 90px;
-    overflow: hidden;
-    -webkit-box-reflect: below 1px -webkit-gradient(linear, left top, left
-                bottom, from(transparent), color-stop(0.7, #ffffff00), to(rgb(255
-                        255 255 / 100%)));
+  width: 100%;
+  height: 90px;
+  overflow: hidden;
+  -webkit-box-reflect: below 1px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(0.7, #ffffff00), to(rgb(255
+            255 255 / 100%)));
 `;
 
 const CurTimeLabel = styled.div`
-    position: absolute;
-    bottom: 38px;
-    z-index: 2;
-    line-height: 1;
-    background: black;
-    color: #9d9d9d;
-    font-size: 0.7em;
-    padding: 2px 2px 0px;
-    mix-blend-mode: multiply;
+  position: absolute;
+  bottom: 38px;
+  z-index: 2;
+  line-height: 1;
+  background: black;
+  color: #9d9d9d;
+  font-size: 0.7em;
+  padding: 2px 2px 0px;
+  mix-blend-mode: multiply;
 `;
 const DurationLabel = styled.div`
-    position: absolute;
-    right: 0px;
-    bottom: 38px;
-    z-index: 2;
-    line-height: 1;
-    background: black;
-    color: #9d9d9d;
-    font-size: 0.7em;
-    padding: 2px 2px 0px;
-    mix-blend-mode: multiply;
+  position: absolute;
+  right: 0px;
+  bottom: 38px;
+  z-index: 2;
+  line-height: 1;
+  background: black;
+  color: #9d9d9d;
+  font-size: 0.7em;
+  padding: 2px 2px 0px;
+  mix-blend-mode: multiply;
 `;
 
 export default WaveForm;

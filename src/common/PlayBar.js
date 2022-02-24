@@ -12,10 +12,15 @@ import {
   faShuffle,
   faUserPlus,
   faVolumeHigh,
+  faVolumeXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { Image, Text } from "../elements";
 import { useSelector } from "react-redux";
-import track, { isPlaying } from "../redux/track";
+import track, {
+  getAudioPlayer,
+  getPlayingInfo,
+  isPlaying,
+} from "../redux/track";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
@@ -67,8 +72,9 @@ const PlayBarBlock = styled.div`
   }
   .progressBar {
     flex-grow: 1;
-    padding: 0.5em 0;
+    padding: 1.5em 0;
     .progress {
+      position: relative;
       background: #f50;
       height: 1px;
       /* width: 50%; //지우기 */
@@ -100,32 +106,36 @@ const PlayBarBlock = styled.div`
 `;
 
 const PlayBar = () => {
-  const now_playing = useSelector(({ track }) => track.now_playing);
-  const now_playtime = useSelector(({ track }) => track.now_playtime);
-  const now_endTime = useSelector(({ track }) => track.now_endTime);
-  const audioPlayer = useSelector(({ track }) => track.audio_player);
-  const [playing, setPlaying] = useState(true);
-
   const dispatch = useDispatch();
 
-  var playTime_min = Math.floor(now_playtime / 60);
-  var playTime_sec = now_playtime % 60;
+  const startTime = useSelector(({ track }) => track.now_playtime);
+  const timer = useSelector(({ track }) => track.timer);
+  const audioPlayer = useSelector(({ track }) => track.audio_player);
+  const playingInfo = useSelector(({ track }) => track.playing_info);
+  const [muteStatus, setMuteStatus] = useState(false);
+  // const [playIcon, setPlayIcon] = useState(false);
+
+  const now_endTime = useSelector(({ track }) => track.now_endTime);
+
+  var playTime_min = Math.floor(startTime / 60);
+  var playTime_sec = startTime % 60;
   let new_playTime = `${playTime_min}:${playTime_sec}`;
 
   var endTime_min = Math.floor(now_endTime / 60);
   var endTime_sec = now_endTime % 60;
   let new_endTime = `${endTime_min}:${endTime_sec}`;
 
-  const progressRatio = (now_playtime / now_endTime) * 100;
+  const progressRatio = (startTime / now_endTime) * 100;
 
   const pauseMusic = () => {
     audioPlayer.pause();
-    setPlaying(false);
+    dispatch(getPlayingInfo(null));
+    dispatch(getAudioPlayer(null));
+    clearInterval(timer);
   };
 
   const playMusic = () => {
     audioPlayer.play();
-    setPlaying(true);
   };
 
   const skipForward = () => {
@@ -134,6 +144,11 @@ const PlayBar = () => {
 
   const skipBackward = () => {
     audioPlayer.skipBackward(5);
+  };
+
+  const mute = () => {
+    audioPlayer.toggleMute();
+    setMuteStatus(!muteStatus);
   };
 
   const progressControl = (e) => {
@@ -160,14 +175,20 @@ const PlayBar = () => {
     e.target.addEventListener("mousemove", mouseMove);
     e.target.addEventListener("mouseup", mouseUp);
   };
+  // useEffect(() => {
+  //   if (audioPlayer.isPlaying()) {
+  //     setPlayIcon(true);
+  //   } else {
+  //     setPlayIcon(false);
+  //   }
+  // }, [audioPlayer]);
 
-  useEffect(() => {});
   return (
     <PlayBarBlock>
       <div className="playPlayer_container">
         <div className="playerIcon_container">
           <FontAwesomeIcon icon={faBackwardStep} onClick={skipBackward} />
-          {playing ? (
+          {audioPlayer?.isPlaying() ? (
             <FontAwesomeIcon icon={faPause} onClick={pauseMusic} />
           ) : (
             <FontAwesomeIcon icon={faPlay} onClick={playMusic} />
@@ -184,24 +205,33 @@ const PlayBar = () => {
               className="progress"
               style={{ width: `${progressRatio}%` }}
             ></div>
+
             <div className="backProgress"></div>
           </div>
           {/* <input type="range" min="0" max="100" value={progressRatio} /> */}
           <span className="end_time">{new_endTime}</span>
-          <FontAwesomeIcon
-            icon={faVolumeHigh}
-            className="sound_icon"
-            onClick={() => audioPlayer.toggleMute()}
-          />
+          {muteStatus ? (
+            <FontAwesomeIcon
+              icon={faVolumeXmark}
+              className="sound_icon"
+              onClick={mute}
+            />
+          ) : (
+            <FontAwesomeIcon
+              icon={faVolumeHigh}
+              className="sound_icon"
+              onClick={mute}
+            />
+          )}
         </div>
 
         <div className="track_info">
           <div className="image_cover">
-            <Image size="32px" shape="rectangle" src={now_playing?.imageUrl} />
+            <Image size="32px" shape="rectangle" src={playingInfo?.imageUrl} />
           </div>
           <div className="info">
-            <Text>{now_playing?.artistName}</Text>
-            <Text>{now_playing?.musicTitle}</Text>
+            <Text>{playingInfo?.artistName}</Text>
+            <Text>{playingInfo?.musicTitle}</Text>
           </div>
           <div className="icon_wrapper">
             <FontAwesomeIcon icon={faHeart} />
