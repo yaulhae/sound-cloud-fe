@@ -220,6 +220,7 @@ const MainPage = (props) => {
   const audio_player = useSelector(({ track }) => track.audio_player);
 
   React.useEffect(() => {
+    dispatch(playlistActions.getTopListFB());
     timerRef.current = setInterval(() => {
       dispatch(getPlayTime(Math.floor(audio_player?.getCurrentTime())));
     }, 1000);
