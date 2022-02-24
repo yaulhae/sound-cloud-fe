@@ -30,6 +30,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { actionsCreators as playlistActions } from "../redux/playlist";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { getPlayTime } from "../redux/track";
 
 const MainPageBlock = styled.div`
   .layout_container {
@@ -195,9 +196,16 @@ const MainPageBlock = styled.div`
 const MainPage = () => {
   const dispatch = useDispatch();
   const Charts = useSelector(({ playlist }) => playlist.top5List);
+  const timerRef = useRef(null);
+  const audio_player = useSelector(({ track }) => track.audio_player);
 
   React.useEffect(() => {
-    dispatch(playlistActions.getTopListFB());
+    timerRef.current = setInterval(() => {
+      dispatch(getPlayTime(Math.floor(audio_player?.getCurrentTime())));
+    }, 1000);
+    return () => {
+      clearInterval(timerRef.current);
+    };
   }, []);
 
   // const [Charts, setCharts] = useState([
