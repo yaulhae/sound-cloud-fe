@@ -81,6 +81,7 @@ const WaveForm = (props) => {
       player.current.pause();
       dispatch(getPlayingInfo(null));
       dispatch(getAudioPlayer(null));
+      clearInterval(timerRef.current);
     }
   };
 

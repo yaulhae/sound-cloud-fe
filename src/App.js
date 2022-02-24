@@ -7,7 +7,6 @@ import Upload from './pages/Upload';
 import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import Header from './common/Header';
-import Test from './pages/Test';
 import PlayBar from './common/PlayBar';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
@@ -17,7 +16,7 @@ export const history = createBrowserHistory();
 function App() {
     //const now_playing = useSelector(({ track }) => track.now_playing);
     const audio_player = useSelector(({ track }) => track.audio_player);
-  
+
     return (
         <HistoryRouter history={history}>
             <Header />
@@ -28,8 +27,6 @@ function App() {
                 </Route>
                 <Route path="/stream" element={<StreamPage />} />
                 <Route path="/upload" element={<Upload history={history} />} />
-
-                {/* <Route path="/stream" element={<Slick />} /> */}
             </Routes>
             {audio_player && <PlayBar />}
         </HistoryRouter>

@@ -27,17 +27,14 @@ const Upload = props => {
         for (var i = 0; i < event.target.files.length; i++) {
             if (event.target.files[i]) {
                 let reader = new FileReader();
-                reader.readAsDataURL(event.target.files[i]); // 1. 파일을 읽어 버퍼에 저장합니다.
-                // 파일 상태 업데이트
+                reader.readAsDataURL(event.target.files[i]);
                 reader.onloadend = () => {
-                    // 2. 읽기가 완료되면 아래코드가 실행됩니다.
                     const base64 = reader.result;
                     console.log(base64);
                     if (base64) {
                         var base64Sub = base64.toString();
 
                         setImgBase64(imgBase64 => [...imgBase64, base64Sub]);
-                        // 파일 base64 상태 업데이트
                     }
                 };
             }
@@ -62,16 +59,6 @@ const Upload = props => {
         fd.append('musicCategory', musicCategory);
 
         Object.values(imgFile).forEach(file => fd.append('image', file));
-
-        // FormData의 key 확인
-        for (let key of fd.keys()) {
-            console.log(key);
-        }
-
-        // FormData의 value 확인
-        for (let value of fd.values()) {
-            console.log(value);
-        }
 
         await apis
             .post('/music', fd, {
@@ -170,13 +157,6 @@ const Upload = props => {
         </TemplateRyu>
     );
 };
-
-// form-data 형식 (Key : Value)
-// multipartFile : ${음악파일}//
-// musicTitle : ${타이틀명}//
-// artistName : ${아티스트명}//
-// musicCategory : ${음악카테고리}//
-// imageUrl : ${이미지파일}
 
 const InfoContainer = styled.div`
     display: flex;

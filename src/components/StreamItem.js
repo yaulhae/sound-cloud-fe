@@ -15,7 +15,7 @@ import {
 import WaveSurfer from "wavesurfer.js";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { getAudioPlayer, getPlayingInfo, getTimer } from "../redux/track";
+import { getAudioPlayer, getPlayingInfo } from "../redux/track";
 import { useSelector } from "react-redux";
 import { getPlayTime } from "../redux/track";
 import { getEndTime } from "../redux/track";
@@ -117,7 +117,6 @@ const StreamItem = ({ stream }) => {
   const [endTime, setEndTime] = useState(null);
   const seekToTime =
     audio_player?.getCurrentTime() / audio_player?.getDuration();
-  const timer = useSelector(({ track }) => track.timer);
 
   useEffect(() => {
     audioPlayer.current = WaveSurfer.create({
@@ -161,7 +160,7 @@ const StreamItem = ({ stream }) => {
           console.log(audioPlayer.current?.getCurrentTime());
         }, 1000);
       }
-    }, 1800);
+    }, 1900);
     return () => {
       clearInterval(timerRef.current);
     };
