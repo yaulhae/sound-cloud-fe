@@ -10,7 +10,6 @@ import {
   faEllipsis,
   faEnvelope,
   faMagnifyingGlass,
-  faMessage,
 } from "@fortawesome/free-solid-svg-icons";
 
 const HeaderBlock = styled.div`

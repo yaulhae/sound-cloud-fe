@@ -73,10 +73,6 @@ const StreamItemBlock = styled.div`
   }
   .comment_list {
     display: flex;
-    /* display: flex;
-    position: absolute;
-    bottom: 0;
-    left: 0; */
   }
   .comment_container {
     display: flex;
@@ -105,6 +101,9 @@ const StreamItemBlock = styled.div`
   .show {
     display: block !important;
   }
+  .play_icon {
+    cursor: pointer;
+  }
 `;
 
 const StreamItem = ({ stream }) => {
@@ -118,6 +117,7 @@ const StreamItem = ({ stream }) => {
   const [endTime, setEndTime] = useState(null);
   const seekToTime =
     audio_player?.getCurrentTime() / audio_player?.getDuration();
+  const timer = useSelector(({ track }) => track.timer);
 
   useEffect(() => {
     audioPlayer.current = WaveSurfer.create({
@@ -145,10 +145,26 @@ const StreamItem = ({ stream }) => {
         audio_player.pause();
         audioPlayer.current.seekTo(seekToTime);
         audioPlayer.current.play();
+        console.log(audioPlayer.current.isPlaying());
+        console.log("도달했지?");
         dispatch(getPlayingInfo(stream));
         dispatch(getAudioPlayer(audioPlayer.current));
       });
     }
+
+    setTimeout(() => {
+      if (audioPlayer.current?.isPlaying()) {
+        timerRef.current = setInterval(() => {
+          dispatch(
+            getPlayTime(Math.floor(audioPlayer.current?.getCurrentTime()))
+          );
+          console.log(audioPlayer.current?.getCurrentTime());
+        }, 1000);
+      }
+    }, 1800);
+    return () => {
+      clearInterval(timerRef.current);
+    };
   }, []);
 
   const play = () => {
@@ -160,7 +176,7 @@ const StreamItem = ({ stream }) => {
     dispatch(getPlayingInfo(stream));
     dispatch(getAudioPlayer(audioPlayer.current));
     audioPlayer.current.play();
-    //audioPlayer.current.play();
+    dispatch(getPlayTime(Math.floor(audioPlayer.current?.getCurrentTime())));
     timerRef.current = setInterval(() => {
       dispatch(getPlayTime(Math.floor(audioPlayer.current?.getCurrentTime())));
     }, 1000);
@@ -169,7 +185,6 @@ const StreamItem = ({ stream }) => {
 
   const stop = () => {
     setPlayIcon(false);
-    // dispatch(getAudioPlayer(stream));
     dispatch(getPlayingInfo(null));
     dispatch(getAudioPlayer(null));
     audio_player.pause();

@@ -228,56 +228,6 @@ const MainPage = (props) => {
     };
   }, []);
 
-  // const [Charts, setCharts] = useState([
-  //   {
-  //     imageUrl:
-  //       "https://image.bugsm.co.kr/album/images/original/5766/576613.jpg?version=undefined",
-  //     name: "Jazz & Blues",
-  //     rank: "Top 50",
-  //   },
-  //   {
-  //     imageUrl:
-  //       "https://image.bugsm.co.kr/album/images/original/5451/545138.jpg?version=undefined",
-  //     name: "YERINB",
-  //     rank: "top 50",
-  //   },
-  //   {
-  //     imageUrl:
-  //       "https://image.bugsm.co.kr/album/images/original/203568/20356818.jpg?version=undefined",
-  //     name: "Hip-hop & Rap",
-  //     rank: "Top 50",
-  //   },
-  //   {
-  //     imageUrl:
-  //       "https://image.bugsm.co.kr/album/images/original/8598/859812.jpg?version=undefined",
-  //     name: "Hip-hop & Rap",
-  //     rank: "Top 50",
-  //   },
-  //   {
-  //     imageUrl:
-  //       "https://image.bugsm.co.kr/album/images/original/8598/859812.jpg?version=undefined",
-  //     name: "Hip-hop & Rap",
-  //     rank: "Top 50",
-  //   },
-  //   {
-  //     imageUrl:
-  //       "https://scontent-ssn1-1.xx.fbcdn.net/v/t31.18172-8/11133935_1609356205963402_6754719463200097210_o.jpg?_nc_cat=103&ccb=1-5&_nc_sid=e3f864&_nc_ohc=9k86Hr8bbS0AX9ZA1WJ&_nc_ht=scontent-ssn1-1.xx&oh=00_AT-Nbx4-mfZWpv5UJ-TS47KQP90rIt6lEP5MMOnRIeDVOA&oe=623BAB80",
-  //     name: "Hip-hop & Rap",
-  //     rank: "Top 50",
-  //   },
-  //   {
-  //     imageUrl:
-  //       "https://scontent-ssn1-1.xx.fbcdn.net/v/t31.18172-8/11133935_1609356205963402_6754719463200097210_o.jpg?_nc_cat=103&ccb=1-5&_nc_sid=e3f864&_nc_ohc=9k86Hr8bbS0AX9ZA1WJ&_nc_ht=scontent-ssn1-1.xx&oh=00_AT-Nbx4-mfZWpv5UJ-TS47KQP90rIt6lEP5MMOnRIeDVOA&oe=623BAB80",
-  //     name: "Hip-hop & Rap",
-  //     rank: "Top 50",
-  //   },
-  //   {
-  //     imageUrl:
-  //       "https://scontent-ssn1-1.xx.fbcdn.net/v/t31.18172-8/11133935_1609356205963402_6754719463200097210_o.jpg?_nc_cat=103&ccb=1-5&_nc_sid=e3f864&_nc_ohc=9k86Hr8bbS0AX9ZA1WJ&_nc_ht=scontent-ssn1-1.xx&oh=00_AT-Nbx4-mfZWpv5UJ-TS47KQP90rIt6lEP5MMOnRIeDVOA&oe=623BAB80",
-  //     name: "Hip-hop & Rap",
-  //     rank: "Top 50",
-  //   },
-  // ]);
 
   const [artistList, setArtistList] = useState([
     {

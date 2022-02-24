@@ -1,88 +1,114 @@
+import React, { useState, useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import styled from "styled-components";
+import WaveSurfer from "wavesurfer.js";
 
-import React, { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import styled from 'styled-components';
-import WaveSurfer from 'wavesurfer.js';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlay, faPause } from "@fortawesome/free-solid-svg-icons";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons';
+import "../waveForm.css";
 
-import '../waveForm.css';
+import formatTime from "../common/formatTime";
+import { actionsCreators as musicActions } from "../redux/music";
+import {
+  getAudioPlayer,
+  getEndTime,
+  getPlayingInfo,
+  getPlayTime,
+} from "../redux/track";
 
-import formatTime from '../common/formatTime';
-import { actionsCreators as musicActions } from '../redux/music';
+const WaveForm = (props) => {
+  const dispatch = useDispatch();
 
-const WaveForm = props => {
-    const dispatch = useDispatch();
+  const music = useSelector(({ music }) => music?.music?.music);
+  const audio_player = useSelector(({ track }) => track.audio_player);
+  const timer = useSelector(({ track }) => track.timer);
+  const player = useRef(null);
+  const timerRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [duration, setDuration] = useState(0);
+  const [curTime, setCurTime] = useState("0:00");
+  const [endTime, setEndTime] = useState(null);
+  useEffect(() => {
+    player.current = WaveSurfer.create({
+      container: player.current,
+      barWidth: 2,
+      barRadius: 1,
+      barGap: 2,
+      barMinHeight: 1,
+      cursorWidth: 1,
+      // backend: 'MediaElementWebAudio',  이 녀석 때문에 에러났음
+      backend: "WebAudio",
+      height: 180,
+      progressColor: "#FE6E00",
+      responsive: true,
+      waveColor: "#C4C4C4",
+      cursorColor: "transparent",
+    });
 
-    const music = useSelector(({ music }) => music?.music?.music);
+    player.current.load(music?.musicUrl || "url");
 
-    const player = useRef(null);
+    player.current?.on("ready", () => {
+      setDuration(formatTime(player.current?.getDuration()));
+      setEndTime(player.current.getDuration());
+    });
 
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [duration, setDuration] = useState(0);
-    const [curTime, setCurTime] = useState('0:00');
+    player.current?.on("audioprocess", function () {
+      setCurTime(formatTime(player.current.getCurrentTime()));
+      const time = player.current.getCurrentTime();
+      dispatch(musicActions.getCommentTime(time));
+    });
+  }, []);
 
-    useEffect(() => {
-        player.current = WaveSurfer.create({
-            container: player.current,
-            barWidth: 2,
-            barRadius: 1,
-            barGap: 2,
-            barMinHeight: 1,
-            cursorWidth: 1,
-            // backend: 'MediaElementWebAudio',  이 녀석 때문에 에러났음
-            backend: 'WebAudio',
-            height: 180,
-            progressColor: '#FE6E00',
-            responsive: true,
-            waveColor: '#C4C4C4',
-            cursorColor: 'transparent',
-        });
+  const handlePlay = () => {
+    if (!player.current.isPlaying()) {
+      if (audio_player?.isPlaying()) {
+        audio_player?.pause();
+        clearInterval(timer);
+      }
+      console.log("play");
+      dispatch(getPlayingInfo(music));
+      dispatch(getAudioPlayer(player.current));
+      dispatch(getPlayTime(Math.floor(player.current?.getCurrentTime())));
+      timerRef.current = setInterval(() => {
+        dispatch(getPlayTime(Math.floor(player.current?.getCurrentTime())));
+      }, 1000);
+      dispatch(getEndTime(Math.floor(endTime)));
+      player.current.play();
+      dispatch(musicActions.musicHistoryAPI(props.musicId));
+    } else {
+      console.log("pause");
+      player.current.pause();
+      dispatch(getPlayingInfo(null));
+      dispatch(getAudioPlayer(null));
+    }
+  };
 
-        player.current.load(music?.musicUrl || 'url');
+  /*if (audio_player) {
+    timerRef.current = setInterval(() => {
+      dispatch(getPlayTime(Math.floor(audio_player?.getCurrentTime())));
+    }, 1000);
+  }
+  return () => {
+    clearInterval(timerRef.current);
+  };*/
 
-        player.current?.on('ready', () => {
-            setDuration(formatTime(player.current?.getDuration()));
-        });
+  // console.log(music);
 
-        player.current?.on('audioprocess', function () {
-            setCurTime(formatTime(player.current.getCurrentTime()));
-            const time = player.current.getCurrentTime();
-            dispatch(musicActions.getCommentTime(time));
-        });
-    }, []);
-
-    const handlePlay = () => {
-        setIsPlaying(!isPlaying);
-        if (!isPlaying) {
-            console.log('play');
-            player.current.play();
-            dispatch(musicActions.musicHistoryAPI(props.musicId));
-        } else {
-            console.log('pause');
-            player.current.pause();
-        }
-    };
-
-    // console.log(music);
-
-    return (
-        <WaveformContianer>
-            <PlayButton onClick={handlePlay}>
-                {!isPlaying ? (
-                    <FontAwesomeIcon icon={faPlay} size="2x" />
-                ) : (
-                    <FontAwesomeIcon icon={faPause} size="2x" />
-                )}
-            </PlayButton>
-            <Wave id="waveform" ref={player} />
-            <CurTimeLabel>{curTime}</CurTimeLabel>
-            <DurationLabel>{duration}</DurationLabel>
-        </WaveformContianer>
-    );
-
-
+  return (
+    <WaveformContianer>
+      <PlayButton onClick={handlePlay}>
+        {!player.current?.isPlaying() ? (
+          <FontAwesomeIcon icon={faPlay} size="2x" />
+        ) : (
+          <FontAwesomeIcon icon={faPause} size="2x" />
+        )}
+      </PlayButton>
+      <Wave id="waveform" ref={player} />
+      <CurTimeLabel>{curTime}</CurTimeLabel>
+      <DurationLabel>{duration}</DurationLabel>
+    </WaveformContianer>
+  );
 };
 
 WaveForm.defaultProps = {
