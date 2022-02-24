@@ -31,11 +31,14 @@ const getOneMusicAPI = (musicId = 1) => {
 };
 
 const createCommentAPI = (commentObj, musicId = 1) => {
-  return async (dispatch) => {
-    try {
-      console.log(commentObj);
 
-      const response = await apis.post(`/music/${musicId}/comment`, commentObj);
+    return async dispatch => {
+        try {
+            const response = await apis.post(
+                `/music/${musicId}/comment`,
+                commentObj
+            );
+
 
       const _commentObj = response.data;
 
@@ -45,6 +48,19 @@ const createCommentAPI = (commentObj, musicId = 1) => {
       console.log(err);
     }
   };
+};
+
+const musicHistoryAPI = (musicId, userId = 6) => {
+    return async dispatch => {
+        try {
+            console.log(userId);
+            apis.post(`/music/${musicId}`, {
+                userId,
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    };
 };
 
 const initialState = {
@@ -73,7 +89,10 @@ export default handleActions(
 );
 
 export const actionsCreators = {
-  getOneMusicAPI,
-  createCommentAPI,
-  getCommentTime,
+
+    getOneMusicAPI,
+    createCommentAPI,
+    musicHistoryAPI,
+    getCommentTime,
+
 };
