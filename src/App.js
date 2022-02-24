@@ -10,6 +10,7 @@ import Test from "./pages/Test";
 import PlayBar from "./common/PlayBar";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+
 export const history = createBrowserHistory();
 
 function App() {
@@ -73,6 +74,7 @@ function App() {
         <Route path="/" element={<MainPage />} />
         <Route path="/detail:musicId" element={<DetailPage />} />
         <Route path="/stream" element={<StreamPage />} />
+
         {/* <Route path="/stream" element={<Slick />} /> */}
       </Routes>
       {now_playing && <PlayBar />}

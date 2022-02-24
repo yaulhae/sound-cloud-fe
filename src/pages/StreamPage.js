@@ -329,6 +329,7 @@ const StreamPage = () => {
                 <Grid>
                   <div className="listening_list">
                     {playedList.map((stream, idx) => {
+                      console.log(idx);
                       return (
                         <div className="listening_item" key={idx}>
                           <div
