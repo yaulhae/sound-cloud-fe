@@ -15,7 +15,7 @@ import {
 import WaveSurfer from "wavesurfer.js";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { getAudioPlayer, getPlayButton, isPlaying } from "../redux/track";
+import { getAudioPlayer, getPlayingInfo, getTimer } from "../redux/track";
 import { useSelector } from "react-redux";
 import { getPlayTime } from "../redux/track";
 import { getEndTime } from "../redux/track";
@@ -108,24 +108,20 @@ const StreamItemBlock = styled.div`
 `;
 
 const StreamItem = ({ stream }) => {
-  const audioPlayer = useRef(null);
-  const timeRef = useRef(null);
-  const now_playtime = useSelector(({ track }) => track.now_playtime);
-  const playingTrack = useSelector(({ track }) => track.now_playing);
+  const audioPlayer = useRef(null); //
+  const timerRef = useRef(null);
   const dispatch = useDispatch();
+  const audio_player = useSelector(({ track }) => track.audio_player);
+  const startTime = useSelector(({ track }) => track.now_playtime);
+  const playing_info = useSelector(({ track }) => track.playing_info);
+  const [playIcon, setPlayIcon] = useState(false);
   const [endTime, setEndTime] = useState(null);
+  const seekToTime =
+    audio_player?.getCurrentTime() / audio_player?.getDuration();
+
   useEffect(() => {
     audioPlayer.current = WaveSurfer.create({
       container: audioPlayer.current,
-      // waveColor: "#666666",
-      // progressColor: "#FF5C00",
-      // cursorColor: "white",
-      // barWidth: 1.5,
-      // height: 60,
-      // width: 100,
-      // barRadius: 1,
-      // barGap: 1.5,
-      // scrollParent: false,
       barWidth: 2,
       barRadius: 1,
       barGap: 2,
@@ -143,31 +139,57 @@ const StreamItem = ({ stream }) => {
     audioPlayer.current.on("ready", () => {
       setEndTime(audioPlayer.current.getDuration());
     });
+
+    if (stream.musicId === playing_info?.musicId) {
+      audioPlayer.current.on("ready", () => {
+        audio_player.pause();
+        audioPlayer.current.seekTo(seekToTime);
+        audioPlayer.current.play();
+        dispatch(getPlayingInfo(stream));
+        dispatch(getAudioPlayer(audioPlayer.current));
+      });
+    }
   }, []);
 
-  const playToggle = () => {
-    if (stream.musicId === playingTrack?.musicId) {
-      audioPlayer.current?.pause();
-      dispatch(isPlaying(null));
-      // dispatch(getPlayer(null));
-      return;
+  const play = () => {
+    if (stream.musicId !== playing_info?.musicId) {
+      audio_player?.pause();
+      clearInterval(timerRef.current);
     }
-    dispatch(isPlaying(stream));
+    setPlayIcon(true);
+    dispatch(getPlayingInfo(stream));
     dispatch(getAudioPlayer(audioPlayer.current));
+    audioPlayer.current.play();
+    //audioPlayer.current.play();
+    timerRef.current = setInterval(() => {
+      dispatch(getPlayTime(Math.floor(audioPlayer.current?.getCurrentTime())));
+    }, 1000);
+    dispatch(getEndTime(Math.floor(endTime)));
   };
 
-  if (stream.musicId === playingTrack?.musicId) {
-    audioPlayer.current?.play();
-    clearInterval(timeRef.current);
-    timeRef.current = setInterval(() =>
-      dispatch(getPlayTime(Math.floor(audioPlayer.current?.getCurrentTime())))
-    );
-    dispatch(getEndTime(Math.floor(audioPlayer.current?.getDuration())));
-  } else {
-    audioPlayer.current?.pause();
-    console.log("도착함?");
-    clearInterval(timeRef.current);
-  }
+  const stop = () => {
+    setPlayIcon(false);
+    // dispatch(getAudioPlayer(stream));
+    dispatch(getPlayingInfo(null));
+    dispatch(getAudioPlayer(null));
+    audio_player.pause();
+    audioPlayer.current.pause();
+    clearInterval(timerRef.current);
+  };
+
+  useEffect(() => {
+    if (stream.musicId !== playing_info?.musicId) {
+      setPlayIcon(false);
+      clearInterval(timerRef.current);
+    } else {
+      setPlayIcon(true);
+    }
+    return () => {
+      if (stream.musicId === playing_info?.musicId) {
+        clearInterval(timerRef.current);
+      }
+    };
+  }, [audio_player]);
 
   return (
     <StreamItemBlock>
@@ -191,11 +213,11 @@ const StreamItem = ({ stream }) => {
             </div>
             <div className="middle_music_artist">
               <div className="middle_user">
-                <div className="play_icon" onClick={playToggle}>
-                  {stream.musicId === playingTrack?.musicId ? (
-                    <FontAwesomeIcon icon={faPauseCircle} />
+                <div className="play_icon">
+                  {playIcon ? (
+                    <FontAwesomeIcon icon={faPauseCircle} onClick={stop} />
                   ) : (
-                    <FontAwesomeIcon icon={faPlayCircle} />
+                    <FontAwesomeIcon icon={faPlayCircle} onClick={play} />
                   )}
                 </div>
                 <div>
@@ -250,12 +272,11 @@ const StreamItem = ({ stream }) => {
                 >
                   {stream.commentListDtos?.map((c, idx) => {
                     const left = (Number(c.commentTime) / endTime) * 648;
-                    console.log(now_playtime, c.commentTime);
                     return (
                       <div
                         className={
-                          now_playtime === Number(c.commentTime) &&
-                          stream.musicId === playingTrack?.musicId
+                          startTime === Number(c.commentTime) &&
+                          stream.musicId === playing_info?.musicId
                             ? "comment_item show"
                             : "comment_item"
                         }

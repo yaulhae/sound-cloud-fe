@@ -13,7 +13,8 @@ import { useState } from "react";
 export const history = createBrowserHistory();
 
 function App() {
-  const now_playing = useSelector(({ track }) => track.now_playing);
+  //const now_playing = useSelector(({ track }) => track.now_playing);
+  const audio_player = useSelector(({ track }) => track.audio_player);
   // const [streamList, setStreamList] = useState([
   //   {
   //     userName: "야울해",
@@ -75,7 +76,7 @@ function App() {
         <Route path="/stream" element={<StreamPage />} />
         {/* <Route path="/stream" element={<Slick />} /> */}
       </Routes>
-      {now_playing && <PlayBar />}
+      {audio_player && <PlayBar />}
     </HistoryRouter>
   );
 }
