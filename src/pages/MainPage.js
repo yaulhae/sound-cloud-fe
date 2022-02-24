@@ -372,7 +372,7 @@ const MainPage = props => {
                                         <Grid>
                                             <div>
                                                 <div className="flex-container">
-                                                    {Charts?.topMusicList?.map(
+                                                    {Charts?.rockCategoryMusic?.map(
                                                         (stream, idx) => {
                                                             return (
                                                                 <div
